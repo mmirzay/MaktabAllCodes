@@ -54,6 +54,10 @@ public class Employee {
 		return marriageStatus;
 	}
 
+	public boolean isMarried() {
+		return marriageStatus == MarriageStatus.Married;
+	}
+
 	public void setMarriageStatus(MarriageStatus marriageStatus) {
 		this.marriageStatus = marriageStatus;
 	}
