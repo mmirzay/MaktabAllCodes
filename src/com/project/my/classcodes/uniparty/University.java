@@ -7,4 +7,32 @@ public class University {
 	public University(int numberOfEmployees) {
 		this.employees = new Employee[numberOfEmployees];
 	}
+
+	public void addEmployee(Employee employee) {
+		if (addedEmployees >= employees.length) {
+			System.out.println("All employees are added.");
+			return;
+		}
+		employees[addedEmployees++] = employee;
+		System.out.println(employee + " added.");
+	}
+
+	public void addSpouseById(int id, Name spouseName) {
+		for (Employee employee : employees)
+			if (employee != null && employee.getId() == id) {
+				employee.setSpouseName(spouseName);
+				System.out.println(spouseName + "added as spouse of " + employee.getName());
+				return;
+			}
+		System.out.println("No such Id exists.");
+	}
+
+	public void showMarriageStatusById(int id) {
+		for (Employee employee : employees)
+			if (employee != null && employee.getId() == id) {
+				System.out.println("This employee is " + employee.getMarriageStatus());
+				return;
+			}
+		System.out.println("No such Id exists.");
+	}
 }
