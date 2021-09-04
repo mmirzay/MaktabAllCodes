@@ -152,7 +152,10 @@ public class Main {
 				}
 			printGameStatus(n, m, gameBoard);
 			if (getGameStatus(n, m, gameBoard, selectedRow, selectedColumn, player))
+			{
+				input.close();
 				return;
+			}
 
 			System.out.print("Amir (*) turn >> ");
 			player = "*";
@@ -166,10 +169,14 @@ public class Main {
 				}
 			printGameStatus(n, m, gameBoard);
 			if (getGameStatus(n, m, gameBoard, selectedRow, selectedColumn, player))
+			{
+				input.close();
 				return;
+			}
 		}
 
 		System.out.println("Nobody wins the game!");
+		input.close();
 	}
 
 	private static void printGameStatus(int n, int m, String[][] gameBoard) {

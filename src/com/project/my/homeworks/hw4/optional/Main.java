@@ -50,6 +50,7 @@ public class Main {
 				gameController.showAllCards();
 				break;
 			case 6:
+				input.close();
 				return;
 			default:
 				GameMessages.showMessage("Invalid selection.Try again!");

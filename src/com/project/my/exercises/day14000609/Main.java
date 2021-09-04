@@ -18,5 +18,7 @@ public class Main {
 				result[index--] = line[i];
 		for (int i = index + 1; i < result.length; i++)
 			System.out.print(result[i]);
+
+		input.close();
 	}
 }

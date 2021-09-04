@@ -45,6 +45,7 @@ public class Main {
 			}
 				break;
 			case 4:
+				input.close();
 				return;
 			default:
 				System.out.println("================================================");
@@ -53,6 +54,7 @@ public class Main {
 
 			}
 		}
+
 	}
 
 	static void showMenu() {

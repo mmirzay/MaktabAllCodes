@@ -116,5 +116,6 @@ public class HomeWork1 {
 			}
 		}
 		System.out.printf("Maximum number is %d, entered in turn %d", max, maxTurn);
+		input.close();
 	}
 }

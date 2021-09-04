@@ -8,7 +8,6 @@ public class Main {
 		Scanner scan = new Scanner(System.in);
 		Student[] students = null;
 		int index = 0;
-		int studentCounter = 0;
 		while (true) {
 			System.out.println("1 --> add student\n" + "2-->calculate avg\n" + "3--> check accept\n" + "4--> exit");
 			int number = scan.nextInt();
@@ -38,7 +37,6 @@ public class Main {
 					newStudent.setGrades(grades);
 					students[index] = newStudent;
 					index++;
-					studentCounter++;
 					System.out.println("New student added successfully");
 				} else
 					System.out.println("Capacity is full. can not add new student.");
@@ -81,6 +79,7 @@ public class Main {
 				break;
 			case 4:
 				System.out.println("bye");
+				scan.close();
 				return;
 
 			}

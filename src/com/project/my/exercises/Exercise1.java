@@ -18,6 +18,7 @@ public class Exercise1 {
 				break;
 			}
 		}
+		input.close();
 	}
 
 	private static boolean isGuessed(int num1, int num2) {
