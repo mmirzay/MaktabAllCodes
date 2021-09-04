@@ -6,7 +6,12 @@ public class Employee {
 	private Gender gender;
 	private Location location;
 	private Name spouseName;
-	private boolean isMarried;
+	private MarriageStatus marriageStatus;
+
+	public Employee(int id) {
+		this.id = id;
+		marriageStatus = MarriageStatus.Unmarried;
+	}
 
 	public int getId() {
 		return id;
@@ -42,15 +47,15 @@ public class Employee {
 
 	public void setSpouseName(Name spouseName) {
 		this.spouseName = spouseName;
-		setMarried(true);
+		setMarriageStatus(MarriageStatus.Married);
 	}
 
-	public boolean isMarried() {
-		return isMarried;
+	public MarriageStatus getMarriageStatus() {
+		return marriageStatus;
 	}
 
-	private void setMarried(boolean isMarried) {
-		this.isMarried = isMarried;
+	public void setMarriageStatus(MarriageStatus marriageStatus) {
+		this.marriageStatus = marriageStatus;
 	}
 
 }
