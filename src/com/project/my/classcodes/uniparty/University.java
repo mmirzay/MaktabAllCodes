@@ -35,4 +35,14 @@ public class University {
 			}
 		System.out.println("No such Id exists.");
 	}
+
+	public void showInvitationStatusById(int id) {
+		for (Employee employee : employees)
+			if (employee != null && employee.getId() == id) {
+				System.out.printf("This employee is %s to the party.",
+						Party.isInvited(employee) ? "invited" : "NOT invited");
+				return;
+			}
+		System.out.println("No such Id exists.");
+	}
 }
