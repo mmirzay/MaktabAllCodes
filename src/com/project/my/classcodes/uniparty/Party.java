@@ -2,6 +2,6 @@ package com.project.my.classcodes.uniparty;
 
 public class Party {
 	public static boolean isInvited(Employee employee) {
-		return employee.isMarried();
+		return employee.isMarried() && employee.getLocation().getDistanceFromUniversity() <= 30;
 	}
 }
