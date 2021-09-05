@@ -65,6 +65,9 @@ public class Main {
 			default:
 				System.out.println("Invalid Selection!");
 			}
+			System.out.println("To continue press Enter...");				
+			input.nextLine();
+			input.nextLine();
 		}
 	}
 
