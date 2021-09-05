@@ -30,14 +30,13 @@ public class Location {
 		double a = Math.pow(Math.sin(latitudesDifference / 2), 2)
 				+ Math.pow(Math.sin(longitudesDifference / 2), 2) * Math.cos(universityLatRad) * Math.cos(latRad);
 		double c = 2 * Math.asin(Math.sqrt(a));
-		System.out.println("result: " + (EARTH_RADIUS * c));
-		return EARTH_RADIUS * c;
+
+		return Math.round(EARTH_RADIUS * c);
 	}
 
 	@Override
 	public String toString() {
 		return latitude + ", " + longitude;
 	}
-
 
 }

@@ -17,7 +17,7 @@ public class Main {
 				String firstName = input.next();
 				System.out.print("Enter last name >> ");
 				String lastName = input.next();
-				System.out.print("Enter gender (male/female) >>");
+				System.out.print("Enter gender (male/female) >> ");
 				Name name = new Name(firstName, lastName);
 				String strGender = input.next();
 				Gender gender = strGender.equalsIgnoreCase("male") ? Gender.Male : Gender.Female;
@@ -36,9 +36,9 @@ public class Main {
 			case 2: {
 				System.out.print("Enter ID >> ");
 				int id = input.nextInt();
-				System.out.println("Enter first name of spouse: ");
+				System.out.print("Enter first name of spouse >> ");
 				String firstName = input.next();
-				System.out.println("Enter last name of spouse");
+				System.out.print("Enter last name of spouse >> ");
 				String lastName = input.next();
 				Name name = new Name(firstName, lastName);
 				university.addSpouseById(id, name);

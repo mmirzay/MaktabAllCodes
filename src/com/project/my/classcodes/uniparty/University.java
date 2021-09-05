@@ -26,7 +26,7 @@ public class University {
 		for (Employee employee : employees)
 			if (employee != null && employee.getId() == id) {
 				employee.setSpouseName(spouseName);
-				System.out.println(spouseName + "added as spouse of " + employee.getName());
+				System.out.println(spouseName + " added as spouse of " + employee.getName());
 				return;
 			}
 		System.out.println("No such Id exists!");
