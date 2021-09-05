@@ -33,4 +33,11 @@ public class Location {
 		System.out.println("result: " + (EARTH_RADIUS * c));
 		return EARTH_RADIUS * c;
 	}
+
+	@Override
+	public String toString() {
+		return latitude + ", " + longitude;
+	}
+
+
 }

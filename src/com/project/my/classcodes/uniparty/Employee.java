@@ -62,4 +62,9 @@ public class Employee {
 		this.marriageStatus = marriageStatus;
 	}
 
+	@Override
+	public String toString() {
+		return name + " with Id " + id;
+	}
+
 }

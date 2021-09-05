@@ -17,4 +17,9 @@ public class Name {
 		return lastName;
 	}
 
+	@Override
+	public String toString() {
+		return firstName + " " + lastName;
+	}
+
 }
