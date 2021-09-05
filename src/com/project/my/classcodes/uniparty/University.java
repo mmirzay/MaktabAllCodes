@@ -57,6 +57,7 @@ public class University {
 		for (Employee employee : employees)
 			if (employee != null && Party.isInvited(employee))
 				System.out.printf("#%d- %s%n", ++counter, employee);
-		System.out.println("No one is invited!");
+		if (counter == 0)
+			System.out.println("No one is invited!");
 	}
 }
