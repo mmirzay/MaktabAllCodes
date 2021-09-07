@@ -61,6 +61,7 @@ public class Main {
 				printMessage(newArray.print());
 				break;
 			case 8:
+				input.close();
 				return;
 			default:
 				printMessage("Invalid selection. try again!");
