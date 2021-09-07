@@ -1,6 +1,6 @@
 package com.project.my.homeworks.hw5.optional.entities;
 
-import com.project.my.homeworks.hw5.optional.api.Constants;
+import com.project.my.homeworks.hw5.optional.api.AreaDistances;
 
 public class BikeTrip {
 	private int basePrice;
@@ -21,7 +21,7 @@ public class BikeTrip {
 		boolean isRainy = tripParameters.isRainy();
 		boolean isPeakTime = tripParameters.isPeakTime();
 		boolean isRainyAndPeakTime = isRainy && isPeakTime;
-		int x = basePrice * Constants.getDistanceCoefficient(source, destination);
+		int x = basePrice * AreaDistances.getCoefficient(source, destination);
 		double price = 0;
 		if(isRainyAndPeakTime)
 			price = x * rainyAndPeakTimeRate;
