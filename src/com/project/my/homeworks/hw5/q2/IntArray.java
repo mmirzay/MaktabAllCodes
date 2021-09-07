@@ -53,10 +53,18 @@ public class IntArray {
 	}
 
 	public int search(int element) {
-		for (int i = 0; i < size; i++)
-			if (array[i] == element)
-				return i;
-		return -1;
+        if (array[size - 1] == element)
+            return size - 1;
+        int lastElement = array[size - 1];
+        array[size - 1] = element;
+        for (int i = 0;; i++) {
+            if (array[i] == element) {
+                array[size - 1] = lastElement;
+                if (i < size - 1)
+                    return i;
+                return -1;
+            }
+        }
 	}
 
 	void selectionSort(boolean isAscending) {
@@ -70,7 +78,7 @@ public class IntArray {
 				}else
 					if (array[j] > array[index])
 						index = j;
-					
+
 
 			int temp = array[index];
 			array[index] = array[i];
