@@ -11,6 +11,9 @@ public class Main {
 		System.out.println("Example 3:");
 		int[] ex3 = { 7, 2, 8, 7, 6, 1, 5, 9, 6 };
 		getProfit(ex3);
+		System.out.println("Example 4:");
+		int[] ex4 = { 1, 2 };
+		getProfit(ex4);
 	}
 
 	private static void getProfit(int[] prices) {
