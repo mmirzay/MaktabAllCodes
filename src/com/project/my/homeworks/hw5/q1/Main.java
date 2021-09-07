@@ -27,7 +27,7 @@ public class Main {
 			return false;
 		if (i.length == 0) {
 			i = new int[1];
-			i[0] = num / 2;
+			i[0] = (int) Math.sqrt(num);
 		}
 		if (i[0] < 2)
 			return true;
