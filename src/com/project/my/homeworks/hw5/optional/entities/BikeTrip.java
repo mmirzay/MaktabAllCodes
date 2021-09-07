@@ -15,7 +15,7 @@ public class BikeTrip {
 		rainyRate = 0.8;
 	}
 
-	public double calculatePrice(TripParameters tripParameters) {
+	public int calculatePrice(TripParameters tripParameters) {
 		int source = tripParameters.getSource();
 		int destination = tripParameters.getDestination();
 		boolean isRainy = tripParameters.isRainy();
@@ -31,6 +31,6 @@ public class BikeTrip {
 			price = x * rainyRate;
 		else
 			price = x;
-		return price;
+		return (int) price;
 	}
 }

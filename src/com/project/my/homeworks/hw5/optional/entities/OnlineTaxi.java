@@ -3,8 +3,15 @@ package com.project.my.homeworks.hw5.optional.entities;
 import com.project.my.homeworks.hw5.optional.api.TripMethod;
 
 public class OnlineTaxi {
+	private TripMethod tripMethod;
+	private TripParameters tripParameters;
 
-	public double getPrice(TripMethod tripMethod, TripParameters tripParameters) {
+	public OnlineTaxi(TripMethod tripMethod, TripParameters tripParameters) {
+		this.tripMethod = tripMethod;
+		this.tripParameters = tripParameters;
+	}
+
+	public int getPrice() {
 		switch (tripMethod) {
 		case Economic:
 			return new EconomicTrip().calculatePrice(tripParameters);
