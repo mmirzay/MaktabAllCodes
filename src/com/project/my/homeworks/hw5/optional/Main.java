@@ -44,5 +44,6 @@ public class Main {
 		TripParameters tripParameters = new TripParameters(source, destination, tripSituation);
 		OnlineTaxi onlineTaxi = new OnlineTaxi(tripMethod, tripParameters);
 		System.out.printf("Price is %d.", onlineTaxi.getPrice());
+		input.close();
 	}
 }
