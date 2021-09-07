@@ -21,7 +21,7 @@ public class IntArray {
 			return false;
 
 		if (size == capacity)
-			doubleCapcity();
+			doubleCapacity();
 		array[size++] = element;
 		return true;
 	}
@@ -78,7 +78,7 @@ public class IntArray {
 		return size;
 	}
 
-	private void doubleCapcity() {
+	private void doubleCapacity() {
 		int[] temp = new int[capacity *= 2];
 		for (int i = 0; i < size; i++)
 			temp[i] = array[i];
