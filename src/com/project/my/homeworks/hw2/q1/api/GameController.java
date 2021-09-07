@@ -1,6 +1,6 @@
-package com.project.my.homeworks.hw2.api;
+package com.project.my.homeworks.hw2.q1.api;
 
-import com.project.my.homeworks.hw2.entities.MilitaryBarracks;
+import com.project.my.homeworks.hw2.q1.entities.MilitaryBarracks;
 
 public class GameController {
 	private MilitaryBarracks barracks;

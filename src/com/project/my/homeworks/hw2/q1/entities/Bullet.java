@@ -1,8 +1,8 @@
-package com.project.my.homeworks.hw2.entities;
+package com.project.my.homeworks.hw2.q1.entities;
 
 import java.util.Random;
 
-import com.project.my.homeworks.hw2.api.GameConstants;
+import com.project.my.homeworks.hw2.q1.api.GameConstants;
 
 public class Bullet {
 	private int score;

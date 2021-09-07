@@ -1,4 +1,4 @@
-package com.project.my.homeworks.hw2.api;
+package com.project.my.homeworks.hw2.q1.api;
 
 public class GameConstants {
 	public static final int NUMBER_OF_SOLDIERS = 15;

@@ -1,9 +1,9 @@
-package com.project.my.homeworks.hw2;
+package com.project.my.homeworks.hw2.q1;
 
 import java.util.Scanner;
 
-import com.project.my.homeworks.hw2.api.GameController;
-import com.project.my.homeworks.hw2.api.GameMessages;
+import com.project.my.homeworks.hw2.q1.api.GameController;
+import com.project.my.homeworks.hw2.q1.api.GameMessages;
 
 /**
  * @author Mohsen Mirzaei <br/>

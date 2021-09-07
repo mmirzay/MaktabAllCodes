@@ -1,4 +1,4 @@
-package com.project.my.homeworks.hw2.api;
+package com.project.my.homeworks.hw2.q1.api;
 
 public class GameMessages {
 	public static void showMenu() {

@@ -1,7 +1,7 @@
-package com.project.my.homeworks.hw2.entities;
+package com.project.my.homeworks.hw2.q1.entities;
 
-import com.project.my.homeworks.hw2.api.GameConstants;
-import com.project.my.homeworks.hw2.api.GameConstants.Rank;
+import com.project.my.homeworks.hw2.q1.api.GameConstants;
+import com.project.my.homeworks.hw2.q1.api.GameConstants.Rank;
 
 public class MilitaryBarracks {
 	private int testNumber = 0;
