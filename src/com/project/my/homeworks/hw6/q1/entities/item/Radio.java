@@ -1,4 +1,4 @@
-package com.project.my.homeworks.hw6.q1.entities;
+package com.project.my.homeworks.hw6.q1.entities.item;
 
 public class Radio extends Electrical {
 	private boolean chargeable;

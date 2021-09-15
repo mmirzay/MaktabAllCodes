@@ -1,4 +1,4 @@
-package com.project.my.homeworks.hw6.q1.entities;
+package com.project.my.homeworks.hw6.q1.entities.user;
 
 public class Customer extends User {
 

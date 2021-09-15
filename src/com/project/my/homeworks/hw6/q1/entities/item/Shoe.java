@@ -1,4 +1,4 @@
-package com.project.my.homeworks.hw6.q1.entities;
+package com.project.my.homeworks.hw6.q1.entities.item;
 
 public class Shoe extends Item {
 	private static final String CODE_IDENTIFIER = "S";

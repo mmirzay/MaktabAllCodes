@@ -1,4 +1,4 @@
-package com.project.my.homeworks.hw6.q1.entities;
+package com.project.my.homeworks.hw6.q1.entities.item;
 
 public class LedTV extends TV {
 	private static final double DISCOUNT_IF_NOT_SMART = 0.05;

@@ -1,4 +1,4 @@
-package com.project.my.homeworks.hw6.q1.entities;
+package com.project.my.homeworks.hw6.q1.entities.item;
 
 public class LcdTV extends TV {
 	private static final double DISCOUNT = 0.1;

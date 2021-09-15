@@ -1,4 +1,4 @@
-package com.project.my.homeworks.hw6.q1.entities;
+package com.project.my.homeworks.hw6.q1.entities.item;
 
 public class SportShoe extends Shoe {
 	private static final double DISCOUNT = 0.2;

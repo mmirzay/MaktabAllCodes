@@ -1,4 +1,4 @@
-package com.project.my.homeworks.hw6.q1.entities;
+package com.project.my.homeworks.hw6.q1.entities.item;
 
 public class Electrical extends Item {
 	private static final String CODE_IDENTIFIER = "E";
