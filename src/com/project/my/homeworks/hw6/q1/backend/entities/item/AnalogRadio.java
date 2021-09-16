@@ -1,4 +1,4 @@
-package com.project.my.homeworks.hw6.q1.entities.item;
+package com.project.my.homeworks.hw6.q1.backend.entities.item;
 
 public class AnalogRadio extends Radio {
 	private static final double DISCOUNT = 0.2;

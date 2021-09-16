@@ -1,4 +1,4 @@
-package com.project.my.homeworks.hw6.q1.entities.item;
+package com.project.my.homeworks.hw6.q1.backend.entities.item;
 
 public class FormalShoe extends Shoe {
 	private FormalShoeType type;
