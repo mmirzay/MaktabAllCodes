@@ -18,10 +18,9 @@ public class UIManager {
 
 	public void run() {
 		isRunning = true;
-		while (isRunning) {
+		while (isRunning)
 			showLoginPage();
-			printWaitingMessage();
-		}
+
 	}
 
 	private String getOptionalString(String msg) {
@@ -72,7 +71,7 @@ public class UIManager {
 			signUp();
 			break;
 		case 4:
-			finish();
+			stop();
 			break;
 		default:
 			printErrorMessage("Invalid selection. Try again please!");
@@ -90,7 +89,13 @@ public class UIManager {
 	}
 
 	private void loginAsCustomer() {
-
+		printTitle("Login as Customer");
+		String username = getString("Enter username:");
+		String password = getString("Enter username:");
+		if (onlineMarket.getUsersManager().loginUser(username, password))
+			showUserPage();
+		else
+			printErrorMessage("Invalid username/password!");
 	}
 
 	private void signUp() {
@@ -100,13 +105,12 @@ public class UIManager {
 		String firstName = getString("Enter First Name:");
 		String lastName = getString("Enter Last Name:");
 		if (onlineMarket.getUsersManager().addNewCustomer(username, password, firstName, lastName))
-			printInfoMessage("New Customer added.");
+			printInfoMessage("Signed up successfully.");
 		else
 			printErrorMessage("Username is duplicate. Try again please.");
 	}
 
-	private void finish() {
-		printInfoMessage("Online Market is Closed.");
+	private void stop() {
 		isRunning = false;
 	}
 
@@ -116,6 +120,25 @@ public class UIManager {
 		System.out.println("2- List of All Items");
 		System.out.println("3- List of All Customers");
 		System.out.println("4- Back");
+		printDashedBorder();
+		System.out.print(">> ");
+		switch (getIntValue("")) {
+		case 4:
+			return;
+		}
+		showAdminPage();
+	}
+
+	private void showUserPage() {
+		printTitle("Customer Page");
+		System.out.println("1- Buy New Item");
+		System.out.println("2- Show Shopping Basket");
+		System.out.println("6- Submit Orders");
+		System.out.println("3- Cancel an Order");
+		System.out.println("4- Increase Balance");
+		System.out.println("5- Show Orders History");
+		System.out.println("6- Edit Profile Information");
+		System.out.println("7- Back");
 		printDashedBorder();
 		System.out.print(">> ");
 	}
@@ -136,10 +159,12 @@ public class UIManager {
 
 	private void printErrorMessage(String msg) {
 		System.out.println("| Error: " + msg + " |");
+		printWaitingMessage();
 	}
 
 	private void printInfoMessage(String msg) {
 		System.out.println(">>> " + msg + " <<<");
+		printWaitingMessage();
 	}
 
 	private void printWaitingMessage() {
