@@ -8,57 +8,28 @@ public class UIManager {
 	private Scanner input;
 	private static final int DASHED_BORDER_LENGTH = 40;
 	OnlineMarket onlineMarket;
+	private boolean isRunning;
 
 	public UIManager() {
 		input = new Scanner(System.in);
 		onlineMarket = new OnlineMarket();
+		isRunning = false;
 	}
 
 	public void run() {
-		while (true) {
+		isRunning = true;
+		while (isRunning) {
 			showLoginPage();
-			switch (getIntValue("")) {
-			case 1: {
-				printTitle("Login as Admin");
-				String username = getString("Enter username:");
-				String password = getString("Enter password:");
-				if (onlineMarket.getUsersManager().loginAdmin(username, password)) {
-					showAdminPage();
-				} else
-					printErrorMessage("Invalid username/password!");
-			}
-				break;
-			case 2: {
-
-			}
-				break;
-			case 3: {
-				printTitle("Sign Up");
-				String username = getString("Enter Username:");
-				String password = getString("Enter Password:");
-				String firstName = getString("Enter First Name:");
-				String lastName = getString("Enter Last Name:");
-				if (onlineMarket.getUsersManager().addNewCustomer(username, password, firstName, lastName))
-					printInfoMessage("New Customer added.");
-				else
-					printErrorMessage("Username is duplicate. Try again please.");
-			}
-				break;
-			case 4:
-				return;
-			default:
-				printErrorMessage("Invalid selection. Try again please!");
-			}
 			printWaitingMessage();
 		}
 	}
 
-	public String getOptionalString(String msg) {
+	private String getOptionalString(String msg) {
 		System.out.print(msg + " ");
 		return input.nextLine();
 	}
 
-	public String getString(String msg) {
+	private String getString(String msg) {
 		String result = null;
 		while (true) {
 			result = getOptionalString(msg);
@@ -69,7 +40,7 @@ public class UIManager {
 		}
 	}
 
-	public int getIntValue(String msg) {
+	private int getIntValue(String msg) {
 		while (true)
 			try {
 				return Integer.parseInt(getString(msg));
@@ -80,7 +51,7 @@ public class UIManager {
 			}
 	}
 
-	public void showLoginPage() {
+	private void showLoginPage() {
 		System.out.println("*** Welcome to Online Market ***");
 		printTitle("Login Page");
 		System.out.println("1- Login as Admin");
@@ -89,9 +60,57 @@ public class UIManager {
 		System.out.println("4- Exit");
 		printDashedBorder();
 		System.out.print(">> ");
+
+		switch (getIntValue("")) {
+		case 1:
+			loginAsAdmin();
+			break;
+		case 2:
+			loginAsCustomer();
+			break;
+		case 3:
+			signUp();
+			break;
+		case 4:
+			finish();
+			break;
+		default:
+			printErrorMessage("Invalid selection. Try again please!");
+		}
 	}
 
-	public void showAdminPage() {
+	private void loginAsAdmin() {
+		printTitle("Login as Admin");
+		String username = getString("Enter username:");
+		String password = getString("Enter password:");
+		if (onlineMarket.getUsersManager().loginAdmin(username, password))
+			showAdminPage();
+		else
+			printErrorMessage("Invalid username/password!");
+	}
+
+	private void loginAsCustomer() {
+
+	}
+
+	private void signUp() {
+		printTitle("Sign Up");
+		String username = getString("Enter Username:");
+		String password = getString("Enter Password:");
+		String firstName = getString("Enter First Name:");
+		String lastName = getString("Enter Last Name:");
+		if (onlineMarket.getUsersManager().addNewCustomer(username, password, firstName, lastName))
+			printInfoMessage("New Customer added.");
+		else
+			printErrorMessage("Username is duplicate. Try again please.");
+	}
+
+	private void finish() {
+		printInfoMessage("Online Market is Closed.");
+		isRunning = false;
+	}
+
+	private void showAdminPage() {
 		printTitle("Administrator Page");
 		System.out.println("1- Add New Item");
 		System.out.println("2- List of All Items");
@@ -101,7 +120,7 @@ public class UIManager {
 		System.out.print(">> ");
 	}
 
-	public void printTitle(String title) {
+	private void printTitle(String title) {
 		printDashedBorder();
 		for (int i = 0; i < DASHED_BORDER_LENGTH / 2 - title.length() / 2; i++)
 			System.out.print(" ");
@@ -109,21 +128,21 @@ public class UIManager {
 		printDashedBorder();
 	}
 
-	public void printDashedBorder() {
+	private void printDashedBorder() {
 		for (int i = 0; i < DASHED_BORDER_LENGTH; i++)
 			System.out.print("-");
 		System.out.println();
 	}
 
-	public void printErrorMessage(String msg) {
+	private void printErrorMessage(String msg) {
 		System.out.println("| Error: " + msg + " |");
 	}
 
-	public void printInfoMessage(String msg) {
+	private void printInfoMessage(String msg) {
 		System.out.println(">>> " + msg + " <<<");
 	}
 
-	public void printWaitingMessage() {
+	private void printWaitingMessage() {
 		System.out.println("_____________ press Enter to continue...");
 		input.nextLine();
 	}
