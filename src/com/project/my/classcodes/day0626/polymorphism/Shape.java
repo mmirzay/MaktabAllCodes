@@ -1,7 +1,5 @@
 package com.project.my.classcodes.day0626.polymorphism;
 
-public class Shape {
-	protected void calculateArea() {
-		System.out.println("Shape area");
-	}
+public abstract class Shape {
+	protected abstract void calculateArea();
 }

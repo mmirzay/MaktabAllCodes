@@ -34,7 +34,7 @@ public class Main {
 			shape = new Triangle(base, height);
 			break;
 		default:
-			shape = new Shape();
+			shape = null;
 		}
 
 		shape.calculateArea();
