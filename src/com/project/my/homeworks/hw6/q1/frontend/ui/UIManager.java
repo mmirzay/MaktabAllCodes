@@ -39,7 +39,7 @@ public class UIManager {
 
 	private String getOptionalStringInputValue(String msg) {
 		System.out.print(msg + " ");
-		return input.nextLine();
+		return input.nextLine().trim();
 	}
 
 	private String getStringInputValue(String msg) {
@@ -201,8 +201,8 @@ public class UIManager {
 			item = getLedTV(item);
 			break;
 		}
-
-		onlineMarket.getItemManager().addNewItem(item);
+		int itemCount = getIntInputValue("Enter item count:");
+		onlineMarket.getItemManager().addNewItem(item, itemCount);
 		printInfoMessage("Item added succesffuly");
 
 	}
