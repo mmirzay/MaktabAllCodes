@@ -22,12 +22,23 @@ public class ItemsManager {
 		for (Item item : items)
 			if (item == null)
 				break;
-			else if (item.getCode().equals(code))
+			else if (item.getCode().substring(1).equals(code))
 				return true;
 		return false;
 	}
 
 	public boolean isItemArrayFull() {
 		return itemIndex == items.length;
+	}
+
+	public Item[] getAllItems() {
+		Item[] result = new Item[itemIndex];
+		for (int i = 0; i < itemIndex; i++)
+			result[i] = items[i];
+		return result;
+	}
+
+	public boolean isAnyAddedItem() {
+		return itemIndex != 0;
 	}
 }
