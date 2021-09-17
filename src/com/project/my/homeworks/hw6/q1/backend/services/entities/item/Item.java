@@ -1,5 +1,7 @@
 package com.project.my.homeworks.hw6.q1.backend.services.entities.item;
 
+import com.project.my.homeworks.hw6.q1.backend.services.Constants;
+
 public class Item {
 	private String code;
 	private double price;
@@ -36,12 +38,11 @@ public class Item {
 	@Override
 	public String toString() {
 		StringBuilder result = new StringBuilder();
-		result.append(code);
-		result.append(" ");
+		result.append(Constants.formatter(code));
+		result.append(Constants.COLUMNS_SEPARATOR);
 		result.append("%s");
-		result.append(" ");
-		result.append(String.format("%,.2f", price));
-
+		result.append(Constants.COLUMNS_SEPARATOR);
+		result.append(Constants.formatter(String.format("%,.2f", price)));
 		return result.toString();
 	}
 }

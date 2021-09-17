@@ -1,5 +1,7 @@
 package com.project.my.homeworks.hw6.q1.backend.services.entities.item;
 
+import com.project.my.homeworks.hw6.q1.backend.services.Constants;
+
 public class FormalShoe extends Shoe {
 	private FormalShoeType type;
 	private static final double DISCOUNT_IF_IS_FOR_KIDS = 0.2;
@@ -18,10 +20,10 @@ public class FormalShoe extends Shoe {
 	public String toString() {
 		StringBuilder discount = new StringBuilder("");
 		if (getDiscount() != 0) {
-			discount.append(" ");// column seperator
-			discount.append((int) (getDiscount() * 100) + "%");
+			discount.append(Constants.COLUMNS_SEPARATOR);
+			discount.append(Constants.formatter((int) (getDiscount() * 100) + "%"));
 		}
-		return super.toString().formatted(type) + discount;
+		return super.toString().formatted(Constants.formatter(type.name())) + discount;
 	}
 
 }

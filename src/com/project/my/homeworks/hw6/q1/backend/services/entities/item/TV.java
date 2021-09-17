@@ -1,5 +1,7 @@
 package com.project.my.homeworks.hw6.q1.backend.services.entities.item;
 
+import com.project.my.homeworks.hw6.q1.backend.services.Constants;
+
 public class TV extends Electrical {
 	private String sizeInch;
 
@@ -15,8 +17,8 @@ public class TV extends Electrical {
 	@Override
 	public String toString() {
 		StringBuilder result = new StringBuilder();
-		result.append(sizeInch);
-		result.append(" ");
+		result.append(Constants.formatter(sizeInch));
+		result.append(Constants.COLUMNS_SEPARATOR);
 		result.append("%s");
 		return super.toString().formatted(result);
 	}

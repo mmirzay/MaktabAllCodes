@@ -153,9 +153,100 @@ public class UIManager {
 			printErrorMessage("There is no added item");
 			return;
 		}
+		Item[] books = onlineMarket.getItemsManager().getAllItemsByCategory(ItemCategory.BOOK);
+		if (books.length > 0) {
+			showListTitles("Books:", isAdmin, "Title", "Author Name");
+			for (Item item : books)
+				System.out.printf("%s%s%n", item,
+						isAdmin ? Constants.COLUMNS_SEPARATOR + onlineMarket.getItemsManager().getItemCount(item) : "");
+		}
 
-		for (Item item : onlineMarket.getItemsManager().getAllItems())
-			System.out.printf("%s%s%n", item, isAdmin ? " " + onlineMarket.getItemsManager().getItemCount(item) : "");
+		Item[] newspapers = onlineMarket.getItemsManager().getAllItemsByCategory(ItemCategory.NEWSPAPER);
+		if (newspapers.length > 0) {
+			showListTitles("Newspapers:", isAdmin, "Title", "Date");
+			for (Item item : newspapers)
+				System.out.printf("%s%s%n", item,
+						isAdmin ? Constants.COLUMNS_SEPARATOR + onlineMarket.getItemsManager().getItemCount(item) : "");
+		}
+
+		Item[] magazines = onlineMarket.getItemsManager().getAllItemsByCategory(ItemCategory.MAGAZINE);
+		if (magazines.length > 0) {
+			showListTitles("Magazines:", isAdmin, "Title", "Type");
+			for (Item item : magazines)
+				System.out.printf("%s%s%n", item,
+						isAdmin ? Constants.COLUMNS_SEPARATOR + onlineMarket.getItemsManager().getItemCount(item) : "");
+		}
+
+		Item[] formalShoes = onlineMarket.getItemsManager().getAllItemsByCategory(ItemCategory.FORMAL_SHOE);
+		if (formalShoes.length > 0) {
+			showListTitles("Formal Shoes:", isAdmin, "Color", "Size", "Type");
+			for (Item item : formalShoes)
+				System.out.printf("%s%s%n", item,
+						isAdmin ? Constants.COLUMNS_SEPARATOR + onlineMarket.getItemsManager().getItemCount(item) : "");
+		}
+
+		Item[] sportShoes = onlineMarket.getItemsManager().getAllItemsByCategory(ItemCategory.SPORT_SHOE);
+		if (sportShoes.length > 0) {
+			showListTitles("Sport Shoes:", isAdmin, "Color", "Size");
+			for (Item item : sportShoes)
+				System.out.printf("%s%s%n", item,
+						isAdmin ? Constants.COLUMNS_SEPARATOR + onlineMarket.getItemsManager().getItemCount(item) : "");
+		}
+
+		Item[] analogRadios = onlineMarket.getItemsManager().getAllItemsByCategory(ItemCategory.ANALOG_RADIO);
+		if (analogRadios.length > 0) {
+			showListTitles("Analog Radios:", isAdmin, "Mark", "Chargeable");
+			for (Item item : analogRadios)
+				System.out.printf("%s%s%n", item,
+						isAdmin ? Constants.COLUMNS_SEPARATOR + onlineMarket.getItemsManager().getItemCount(item) : "");
+		}
+
+		Item[] digitalRadios = onlineMarket.getItemsManager().getAllItemsByCategory(ItemCategory.DIGITAL_RADIO);
+		if (digitalRadios.length > 0) {
+			showListTitles("Digital Radios:", isAdmin, "Mark", "Chargeable");
+			for (Item item : digitalRadios)
+				System.out.printf("%s%s%n", item,
+						isAdmin ? Constants.COLUMNS_SEPARATOR + onlineMarket.getItemsManager().getItemCount(item) : "");
+		}
+
+		Item[] lcdTVs = onlineMarket.getItemsManager().getAllItemsByCategory(ItemCategory.LCD_TV);
+		if (lcdTVs.length > 0) {
+			showListTitles("LCD TVs:", isAdmin, "Mark", "Screen Size", "Smart");
+			for (Item item : lcdTVs)
+				System.out.printf("%s%s%n", item,
+						isAdmin ? Constants.COLUMNS_SEPARATOR + onlineMarket.getItemsManager().getItemCount(item) : "");
+		}
+
+		Item[] ledTVs = onlineMarket.getItemsManager().getAllItemsByCategory(ItemCategory.LED_TV);
+		if (ledTVs.length > 0) {
+			showListTitles("LED TVs:", isAdmin, "Mark", "Screen Size", "Smart");
+			for (Item item : ledTVs)
+				System.out.printf("%s%s%n", item,
+						isAdmin ? Constants.COLUMNS_SEPARATOR + onlineMarket.getItemsManager().getItemCount(item) : "");
+		}
+
+		printWaitingMessage();
+
+	}
+
+	private void showListTitles(String mainTitle, boolean isAdmin, String... titles) {
+		printLeftTitle(mainTitle);
+		StringBuilder result = new StringBuilder();
+		result.append(Constants.formatter("Code"));
+		result.append(Constants.COLUMNS_SEPARATOR);
+		for (String title : titles) {
+			result.append(Constants.formatter(title));
+			result.append(Constants.COLUMNS_SEPARATOR);
+		}
+		result.append(Constants.formatter("Price"));
+		result.append(Constants.COLUMNS_SEPARATOR);
+		if (isAdmin) {
+			result.append(Constants.formatter("Count"));
+			result.append(Constants.COLUMNS_SEPARATOR);
+		}
+		result.append(Constants.formatter("OFF"));
+		result.append(Constants.ROWS_SEPERATOR);
+		System.out.print(result.toString());
 	}
 
 	private void addNewItem() {
@@ -350,6 +441,13 @@ public class UIManager {
 		printDashedBorder();
 	}
 
+	private void printLeftTitle(String title) {
+		System.out.println("+ " + title);
+		for (int i = 0; i < title.length() + 2; i++)
+			System.out.print("=");
+		System.out.println();
+	}
+
 	private void printDashedBorder() {
 		for (int i = 0; i < DASHED_BORDER_LENGTH; i++)
 			System.out.print("-");
@@ -367,6 +465,7 @@ public class UIManager {
 	}
 
 	private void printWaitingMessage() {
+		System.out.println();
 		System.out.println("_____________ press Enter to continue...");
 		input.nextLine();
 	}

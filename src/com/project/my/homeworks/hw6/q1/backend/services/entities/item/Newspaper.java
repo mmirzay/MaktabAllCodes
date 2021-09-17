@@ -1,5 +1,7 @@
 package com.project.my.homeworks.hw6.q1.backend.services.entities.item;
 
+import com.project.my.homeworks.hw6.q1.backend.services.Constants;
+
 public class Newspaper extends Readable {
 	private String date;
 
@@ -14,7 +16,7 @@ public class Newspaper extends Readable {
 
 	@Override
 	public String toString() {
-		return super.toString().formatted(date);
+		return super.toString().formatted(Constants.formatter(date));
 	}
 
 }
