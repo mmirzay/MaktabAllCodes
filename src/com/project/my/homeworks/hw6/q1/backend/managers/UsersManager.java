@@ -1,4 +1,8 @@
-package com.project.my.homeworks.hw6.q1.backend.entities.user;
+package com.project.my.homeworks.hw6.q1.backend.managers;
+
+import com.project.my.homeworks.hw6.q1.backend.services.entities.user.Admin;
+import com.project.my.homeworks.hw6.q1.backend.services.entities.user.Customer;
+import com.project.my.homeworks.hw6.q1.backend.services.entities.user.User;
 
 public class UsersManager {
 	private User[] users;

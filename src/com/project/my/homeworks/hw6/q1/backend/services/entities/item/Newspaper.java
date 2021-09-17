@@ -1,4 +1,4 @@
-package com.project.my.homeworks.hw6.q1.backend.entities.item;
+package com.project.my.homeworks.hw6.q1.backend.services.entities.item;
 
 public class Newspaper extends Readable {
 	private String date;

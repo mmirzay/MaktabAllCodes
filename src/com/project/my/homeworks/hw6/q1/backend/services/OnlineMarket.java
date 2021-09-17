@@ -1,7 +1,7 @@
 package com.project.my.homeworks.hw6.q1.backend.services;
 
-import com.project.my.homeworks.hw6.q1.backend.entities.item.ItemsManager;
-import com.project.my.homeworks.hw6.q1.backend.entities.user.UsersManager;
+import com.project.my.homeworks.hw6.q1.backend.managers.ItemsManager;
+import com.project.my.homeworks.hw6.q1.backend.managers.UsersManager;
 
 public class OnlineMarket {
 	private static final int NUMBER_OF_ALL_CUSTOMERS = 10;
