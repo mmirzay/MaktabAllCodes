@@ -7,18 +7,18 @@ public class OnlineMarket {
 	private static final int NUMBER_OF_ALL_CUSTOMERS = 10;
 	private static final int NUMBER_OF_ALL_ITEMS = 100;
 	private UsersManager userManager;
-	private ItemsManager itemManager;
+	private ItemsManager itemsManager;
 
 	public OnlineMarket() {
 		userManager = new UsersManager(NUMBER_OF_ALL_CUSTOMERS);
-		itemManager = new ItemsManager(NUMBER_OF_ALL_ITEMS);
+		itemsManager = new ItemsManager(NUMBER_OF_ALL_ITEMS);
 	}
 
 	public UsersManager getUsersManager() {
 		return userManager;
 	}
 
-	public ItemsManager getItemManager() {
-		return itemManager;
+	public ItemsManager getItemsManager() {
+		return itemsManager;
 	}
 }
