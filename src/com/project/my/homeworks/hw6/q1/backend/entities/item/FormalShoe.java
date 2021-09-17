@@ -5,7 +5,8 @@ public class FormalShoe extends Shoe {
 	private static final double DISCOUNT_IF_IS_FOR_KIDS = 0.2;
 
 	public FormalShoe(String color, FormalShoeType type, int size, String code, double price) {
-		super(color, size, code, price, type == FormalShoeType.KIDS ? DISCOUNT_IF_IS_FOR_KIDS : 0);
+		super(color, size, code, price, type == FormalShoeType.KIDS ? DISCOUNT_IF_IS_FOR_KIDS : 0,
+				ItemCategory.FORMAL_SHOE);
 		this.type = type;
 	}
 

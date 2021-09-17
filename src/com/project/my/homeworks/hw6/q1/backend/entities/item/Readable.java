@@ -4,8 +4,8 @@ public class Readable extends Item {
 	private static final String CODE_IDENTIFIER = "R";
 	private String title;
 
-	public Readable(String title, String code, double price) {
-		super(CODE_IDENTIFIER + code, price, 0);
+	public Readable(String title, String code, double price, ItemCategory itemCataCategory) {
+		super(CODE_IDENTIFIER + code, price, 0,itemCataCategory);
 		this.title = title;
 	}
 

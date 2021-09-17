@@ -4,7 +4,7 @@ public class Magazine extends Readable {
 	private MagazineType type;
 
 	public Magazine(String title, MagazineType type, String code, double price) {
-		super(title, code, price);
+		super(title, code, price, ItemCategory.MAGAZINE);
 		this.type = type;
 	}
 

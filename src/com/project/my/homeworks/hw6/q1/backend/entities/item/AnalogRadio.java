@@ -5,7 +5,7 @@ public class AnalogRadio extends Radio {
 	private static final boolean CHARGEABLE = false;
 
 	public AnalogRadio(String mark, String code, double price) {
-		super(mark, CHARGEABLE, code, price, DISCOUNT);
+		super(mark, CHARGEABLE, code, price, DISCOUNT, ItemCategory.ANALOG_RADIO);
 	}
 
 }

@@ -4,8 +4,8 @@ public class Electrical extends Item {
 	private static final String CODE_IDENTIFIER = "E";
 	private String mark;
 
-	public Electrical(String mark, String code, double price, double discount) {
-		super(CODE_IDENTIFIER + code, price, discount);
+	public Electrical(String mark, String code, double price, double discount, ItemCategory itemCataCategory) {
+		super(CODE_IDENTIFIER + code, price, discount,itemCataCategory);
 		this.mark = mark;
 	}
 

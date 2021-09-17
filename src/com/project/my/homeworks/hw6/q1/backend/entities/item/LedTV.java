@@ -5,7 +5,7 @@ public class LedTV extends TV {
 	private boolean smart;
 
 	public LedTV(String mark, boolean smart, int sizeInch, String code, double price) {
-		super(mark, sizeInch, code, price, smart ? 0 : DISCOUNT_IF_NOT_SMART);
+		super(mark, sizeInch, code, price, smart ? 0 : DISCOUNT_IF_NOT_SMART,ItemCategory.LED_TV);
 		this.smart = smart;
 	}
 

@@ -4,7 +4,7 @@ public class Newspaper extends Readable {
 	private String date;
 
 	public Newspaper(String title, String date, String code, double price) {
-		super(title, code, price);
+		super(title, code, price, ItemCategory.NEWSPAPER);
 		this.date = date;
 	}
 
