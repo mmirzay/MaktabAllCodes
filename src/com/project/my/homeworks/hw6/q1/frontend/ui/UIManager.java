@@ -2,21 +2,9 @@ package com.project.my.homeworks.hw6.q1.frontend.ui;
 
 import java.util.Scanner;
 
-import com.project.my.homeworks.hw6.q1.backend.services.OnlineMarket;
-import com.project.my.homeworks.hw6.q1.backend.services.entities.item.AnalogRadio;
-import com.project.my.homeworks.hw6.q1.backend.services.entities.item.Book;
-import com.project.my.homeworks.hw6.q1.backend.services.entities.item.DigitalRadio;
-import com.project.my.homeworks.hw6.q1.backend.services.entities.item.FormalShoe;
-import com.project.my.homeworks.hw6.q1.backend.services.entities.item.FormalShoeType;
-import com.project.my.homeworks.hw6.q1.backend.services.entities.item.Item;
-import com.project.my.homeworks.hw6.q1.backend.services.entities.item.ItemCategory;
-import com.project.my.homeworks.hw6.q1.backend.services.entities.item.LcdTV;
-import com.project.my.homeworks.hw6.q1.backend.services.entities.item.LedTV;
-import com.project.my.homeworks.hw6.q1.backend.services.entities.item.Magazine;
-import com.project.my.homeworks.hw6.q1.backend.services.entities.item.MagazineType;
-import com.project.my.homeworks.hw6.q1.backend.services.entities.item.Newspaper;
-import com.project.my.homeworks.hw6.q1.backend.services.entities.item.SportShoe;
-import com.project.my.homeworks.hw6.q1.backend.services.entities.user.Customer;
+import com.project.my.homeworks.hw6.q1.backend.services.*;
+import com.project.my.homeworks.hw6.q1.backend.services.entities.item.*;
+import com.project.my.homeworks.hw6.q1.backend.services.entities.user.*;
 
 public class UIManager {
 	private Scanner input;
@@ -148,6 +136,9 @@ public class UIManager {
 		case 1:
 			addNewItem();
 			break;
+		case 2:
+			showAllItems(true);
+			break;
 		case 4:
 			return;
 		default:
@@ -156,15 +147,26 @@ public class UIManager {
 		showAdminPage();
 	}
 
+	private void showAllItems(boolean isAdmin) {
+		printTitle("All Items List");
+		if (onlineMarket.getItemsManager().isAnyAddedItem() == false) {
+			printErrorMessage("There is no added item");
+			return;
+		}
+
+		for (Item item : onlineMarket.getItemsManager().getAllItems())
+			System.out.printf("%s%s%n", item, isAdmin ? " " + onlineMarket.getItemsManager().getItemCount(item) : "");
+	}
+
 	private void addNewItem() {
 		printTitle("Add New Item");
-		if (onlineMarket.getItemManager().isItemArrayFull()) {
+		if (onlineMarket.getItemsManager().isItemArrayFull()) {
 			printErrorMessage("Items array is full");
 			return;
 		}
 		ItemCategory selectedItem = selectItemCategory();
 		String code = getStringInputValue("Enter item code:");
-		if (onlineMarket.getItemManager().isDuplicateCode(code)) {
+		if (onlineMarket.getItemsManager().isDuplicateCode(code)) {
 			printErrorMessage(code + " is duplicate code. Try again.");
 			return;
 		}
@@ -202,7 +204,7 @@ public class UIManager {
 			break;
 		}
 		int itemCount = getIntInputValue("Enter item count:");
-		onlineMarket.getItemManager().addNewItem(item, itemCount);
+		onlineMarket.getItemsManager().addNewItem(item, itemCount);
 		printInfoMessage("Item added succesffuly");
 
 	}

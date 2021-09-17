@@ -41,4 +41,8 @@ public class ItemsManager {
 	public boolean isAnyAddedItem() {
 		return itemIndex != 0;
 	}
+
+	public int getItemCount(Item item) {
+		return warehouseManager.getItemCount(item.getCode());
+	}
 }
