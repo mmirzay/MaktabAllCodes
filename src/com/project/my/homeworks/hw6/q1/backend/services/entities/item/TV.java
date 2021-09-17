@@ -12,4 +12,13 @@ public class TV extends Electrical {
 		return sizeInch;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder result = new StringBuilder();
+		result.append(sizeInch);
+		result.append(" ");
+		result.append("%s");
+		return super.toString().formatted(result);
+	}
+
 }

@@ -4,7 +4,12 @@ public class SportShoe extends Shoe {
 	private static final double DISCOUNT = 0.2;
 
 	public SportShoe(String color, int size, String code, double price) {
-		super(color, size, code, price, DISCOUNT,ItemCategory.SPORT_SHOE);
+		super(color, size, code, price, DISCOUNT, ItemCategory.SPORT_SHOE);
+	}
+
+	@Override
+	public String toString() {
+		return super.toString().formatted("");
 	}
 
 }

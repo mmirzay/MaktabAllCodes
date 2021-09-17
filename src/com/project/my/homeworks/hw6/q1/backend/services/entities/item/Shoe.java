@@ -19,4 +19,15 @@ public class Shoe extends Item {
 		return color;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder result = new StringBuilder();
+		result.append(color);
+		result.append(" ");
+		result.append(size);
+		result.append(" ");
+		result.append("%s");
+		return super.toString().formatted(result);
+	}
+
 }

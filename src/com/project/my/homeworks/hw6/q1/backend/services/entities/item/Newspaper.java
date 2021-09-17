@@ -12,4 +12,9 @@ public class Newspaper extends Readable {
 		return date;
 	}
 
+	@Override
+	public String toString() {
+		return super.toString().formatted(date);
+	}
+
 }

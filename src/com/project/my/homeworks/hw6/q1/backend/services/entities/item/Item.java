@@ -33,4 +33,15 @@ public class Item {
 		return itemCategory;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder result = new StringBuilder();
+		result.append(code);
+		result.append(" ");
+		result.append("%s");
+		result.append(" ");
+		result.append(String.format("%,.2f", price));
+
+		return result.toString();
+	}
 }

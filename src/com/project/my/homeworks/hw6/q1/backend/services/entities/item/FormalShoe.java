@@ -14,4 +14,14 @@ public class FormalShoe extends Shoe {
 		return type;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder discount = new StringBuilder("");
+		if (getDiscount() != 0) {
+			discount.append(" ");// column seperator
+			discount.append((int) (getDiscount() * 100) + "%");
+		}
+		return super.toString().formatted(type) + discount;
+	}
+
 }

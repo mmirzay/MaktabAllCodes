@@ -12,4 +12,8 @@ public class Magazine extends Readable {
 		return type;
 	}
 
+	@Override
+	public String toString() {
+		return super.toString().formatted(type);
+	}
 }

@@ -13,4 +13,9 @@ public class Book extends Readable {
 		return authorName;
 	}
 
+	@Override
+	public String toString() {
+		return super.toString().formatted(authorName);
+	}
+
 }
