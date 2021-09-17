@@ -26,15 +26,17 @@ public class UsersManager {
 		return false;
 	}
 
-	public boolean addNewCustomer(String username, String password, String firstName, String lastName) {
+	public void addNewCustomer(Customer customer) {
+		users[userIndex++] = customer;
+	}
+
+	public boolean isDuplicateUsername(String username) {
 		for (User user : users)
 			if (user == null)
 				break;
 			else if (user.getUsername().equals(username))
-				return false;
-		User user = new Customer(username, password, firstName, lastName);
-		users[userIndex++] = user;
-		return true;
+				return true;
+		return false;
 	}
 
 	public int getNumberOfAddedCutomers() {
