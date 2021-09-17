@@ -1,4 +1,4 @@
-package com.project.my.homeworks.hw6.q1.backend.entities.user;
+package com.project.my.homeworks.hw6.q1.backend.services.entities.user;
 
 public class Credential {
 	private String username;

@@ -1,4 +1,4 @@
-package com.project.my.homeworks.hw6.q1.backend.entities.item;
+package com.project.my.homeworks.hw6.q1.backend.services.entities.item;
 
 public class DigitalRadio extends Radio {
 	private static final double DISCOUNT_IF_NOT_CHARGEABLE = 0.1;

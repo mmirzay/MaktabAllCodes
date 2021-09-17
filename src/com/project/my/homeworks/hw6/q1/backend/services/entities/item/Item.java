@@ -1,4 +1,4 @@
-package com.project.my.homeworks.hw6.q1.backend.entities.item;
+package com.project.my.homeworks.hw6.q1.backend.services.entities.item;
 
 public class Item {
 	private String code;

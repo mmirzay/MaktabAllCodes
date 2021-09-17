@@ -1,4 +1,6 @@
-package com.project.my.homeworks.hw6.q1.backend.entities.item;
+package com.project.my.homeworks.hw6.q1.backend.managers;
+
+import com.project.my.homeworks.hw6.q1.backend.services.entities.item.Item;
 
 public class ItemsManager {
 	private Item[] items;
