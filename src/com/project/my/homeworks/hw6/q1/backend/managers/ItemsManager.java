@@ -11,14 +11,14 @@ public class ItemsManager {
 		itemIndex = 0;
 	}
 
-	public boolean addNewItem(Item item) {
-		return false;
+	public void addNewItem(Item item) {
+		items[itemIndex++] = item;
 	}
 
 	public boolean isDuplicateCode(String code) {
 		for (Item item : items)
 			if (item == null)
-				return false;
+				break;
 			else if (item.getCode().equalsIgnoreCase(code))
 				return true;
 		return false;
