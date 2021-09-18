@@ -1,5 +1,7 @@
 package com.project.my.homeworks.hw6.q1.backend.services.entities.user;
 
+import com.project.my.homeworks.hw6.q1.backend.services.Constants;
+
 public class UserInformation {
 	private Name name;
 	private String phone;
@@ -7,7 +9,7 @@ public class UserInformation {
 	private Address address;
 
 	public UserInformation(Name name) {
-		this(name, null, null, null);
+		this(name, "", new Email(), new Address());
 	}
 
 	public UserInformation(Name name, String phone, Email email, Address address) {
@@ -48,4 +50,18 @@ public class UserInformation {
 	public void setAddress(Address address) {
 		this.address = address;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder result = new StringBuilder();
+		result.append(name);
+		result.append(Constants.COLUMNS_SEPARATOR);
+		result.append(Constants.formatter(phone));
+		result.append(Constants.COLUMNS_SEPARATOR);
+		result.append(email);
+		result.append(Constants.COLUMNS_SEPARATOR);
+		result.append(address);
+		return result.toString();
+	}
+
 }

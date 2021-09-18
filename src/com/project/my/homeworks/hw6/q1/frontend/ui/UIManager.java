@@ -139,12 +139,52 @@ public class UIManager {
 		case 2:
 			showAllItems(true);
 			break;
+		case 3:
+			showAllCustomers();
+			break;
 		case 4:
 			return;
 		default:
 			printErrorMessage("Invalid selection. Try again please!");
 		}
 		showAdminPage();
+	}
+
+	private void showAllCustomers() {
+		printTitle("All Customers List");
+		if (onlineMarket.getUsersManager().isAnyAddedUser() == false) {
+			printErrorMessage("There is no added Customer");
+			return;
+		}
+		printCustomerListTitles();
+		for (User customer : onlineMarket.getUsersManager().getAllUsers())
+			System.out.printf("%s%s", customer, Constants.ROWS_SEPERATOR);
+		printWaitingMessage();
+	}
+
+	private void printCustomerListTitles() {
+		StringBuilder result = new StringBuilder();
+		result.append(Constants.formatter("Username"));
+		result.append(Constants.COLUMNS_SEPARATOR);
+		result.append(Constants.formatter("Password"));
+		result.append(Constants.COLUMNS_SEPARATOR);
+		result.append(Constants.formatter("First Name"));
+		result.append(Constants.COLUMNS_SEPARATOR);
+		result.append(Constants.formatter("Last Name"));
+		result.append(Constants.COLUMNS_SEPARATOR);
+		result.append(Constants.formatter("Phone"));
+		result.append(Constants.COLUMNS_SEPARATOR);
+		result.append(Constants.formatter("Email"));
+		result.append(Constants.COLUMNS_SEPARATOR);
+		result.append(Constants.formatter("State"));
+		result.append(Constants.COLUMNS_SEPARATOR);
+		result.append(Constants.formatter("City"));
+		result.append(Constants.COLUMNS_SEPARATOR);
+		result.append(Constants.formatter("Street"));
+		result.append(Constants.COLUMNS_SEPARATOR);
+		result.append(Constants.formatter("Postal Code"));
+		result.append(Constants.ROWS_SEPERATOR);
+		System.out.print(result.toString());
 	}
 
 	private void showAllItems(boolean isAdmin) {
@@ -155,7 +195,7 @@ public class UIManager {
 		}
 		Item[] books = onlineMarket.getItemsManager().getAllItemsByCategory(ItemCategory.BOOK);
 		if (books.length > 0) {
-			showListTitles("Books:", isAdmin, "Title", "Author Name");
+			printItemListTitles("Books:", isAdmin, "Title", "Author Name");
 			for (Item item : books)
 				System.out.printf("%s%s%n", item,
 						isAdmin ? Constants.COLUMNS_SEPARATOR + onlineMarket.getItemsManager().getItemCount(item) : "");
@@ -163,7 +203,7 @@ public class UIManager {
 
 		Item[] newspapers = onlineMarket.getItemsManager().getAllItemsByCategory(ItemCategory.NEWSPAPER);
 		if (newspapers.length > 0) {
-			showListTitles("Newspapers:", isAdmin, "Title", "Date");
+			printItemListTitles("Newspapers:", isAdmin, "Title", "Date");
 			for (Item item : newspapers)
 				System.out.printf("%s%s%n", item,
 						isAdmin ? Constants.COLUMNS_SEPARATOR + onlineMarket.getItemsManager().getItemCount(item) : "");
@@ -171,7 +211,7 @@ public class UIManager {
 
 		Item[] magazines = onlineMarket.getItemsManager().getAllItemsByCategory(ItemCategory.MAGAZINE);
 		if (magazines.length > 0) {
-			showListTitles("Magazines:", isAdmin, "Title", "Type");
+			printItemListTitles("Magazines:", isAdmin, "Title", "Type");
 			for (Item item : magazines)
 				System.out.printf("%s%s%n", item,
 						isAdmin ? Constants.COLUMNS_SEPARATOR + onlineMarket.getItemsManager().getItemCount(item) : "");
@@ -179,7 +219,7 @@ public class UIManager {
 
 		Item[] formalShoes = onlineMarket.getItemsManager().getAllItemsByCategory(ItemCategory.FORMAL_SHOE);
 		if (formalShoes.length > 0) {
-			showListTitles("Formal Shoes:", isAdmin, "Color", "Size", "Type");
+			printItemListTitles("Formal Shoes:", isAdmin, "Color", "Size", "Type");
 			for (Item item : formalShoes)
 				System.out.printf("%s%s%n", item,
 						isAdmin ? Constants.COLUMNS_SEPARATOR + onlineMarket.getItemsManager().getItemCount(item) : "");
@@ -187,7 +227,7 @@ public class UIManager {
 
 		Item[] sportShoes = onlineMarket.getItemsManager().getAllItemsByCategory(ItemCategory.SPORT_SHOE);
 		if (sportShoes.length > 0) {
-			showListTitles("Sport Shoes:", isAdmin, "Color", "Size");
+			printItemListTitles("Sport Shoes:", isAdmin, "Color", "Size");
 			for (Item item : sportShoes)
 				System.out.printf("%s%s%n", item,
 						isAdmin ? Constants.COLUMNS_SEPARATOR + onlineMarket.getItemsManager().getItemCount(item) : "");
@@ -195,7 +235,7 @@ public class UIManager {
 
 		Item[] analogRadios = onlineMarket.getItemsManager().getAllItemsByCategory(ItemCategory.ANALOG_RADIO);
 		if (analogRadios.length > 0) {
-			showListTitles("Analog Radios:", isAdmin, "Mark", "Chargeable");
+			printItemListTitles("Analog Radios:", isAdmin, "Mark", "Chargeable");
 			for (Item item : analogRadios)
 				System.out.printf("%s%s%n", item,
 						isAdmin ? Constants.COLUMNS_SEPARATOR + onlineMarket.getItemsManager().getItemCount(item) : "");
@@ -203,7 +243,7 @@ public class UIManager {
 
 		Item[] digitalRadios = onlineMarket.getItemsManager().getAllItemsByCategory(ItemCategory.DIGITAL_RADIO);
 		if (digitalRadios.length > 0) {
-			showListTitles("Digital Radios:", isAdmin, "Mark", "Chargeable");
+			printItemListTitles("Digital Radios:", isAdmin, "Mark", "Chargeable");
 			for (Item item : digitalRadios)
 				System.out.printf("%s%s%n", item,
 						isAdmin ? Constants.COLUMNS_SEPARATOR + onlineMarket.getItemsManager().getItemCount(item) : "");
@@ -211,15 +251,16 @@ public class UIManager {
 
 		Item[] lcdTVs = onlineMarket.getItemsManager().getAllItemsByCategory(ItemCategory.LCD_TV);
 		if (lcdTVs.length > 0) {
-			showListTitles("LCD TVs:", isAdmin, "Mark", "Screen Size", "Smart");
+			printItemListTitles("LCD TVs:", isAdmin, "Mark", "Screen Size", "Smart");
 			for (Item item : lcdTVs)
-				System.out.printf("%s%s%n", item,
-						isAdmin ? Constants.COLUMNS_SEPARATOR + onlineMarket.getItemsManager().getItemCount(item) : "");
+				System.out.printf("%s%s%s", item,
+						isAdmin ? Constants.COLUMNS_SEPARATOR + onlineMarket.getItemsManager().getItemCount(item) : "",
+						Constants.ROWS_SEPERATOR);
 		}
 
 		Item[] ledTVs = onlineMarket.getItemsManager().getAllItemsByCategory(ItemCategory.LED_TV);
 		if (ledTVs.length > 0) {
-			showListTitles("LED TVs:", isAdmin, "Mark", "Screen Size", "Smart");
+			printItemListTitles("LED TVs:", isAdmin, "Mark", "Screen Size", "Smart");
 			for (Item item : ledTVs)
 				System.out.printf("%s%s%n", item,
 						isAdmin ? Constants.COLUMNS_SEPARATOR + onlineMarket.getItemsManager().getItemCount(item) : "");
@@ -229,7 +270,7 @@ public class UIManager {
 
 	}
 
-	private void showListTitles(String mainTitle, boolean isAdmin, String... titles) {
+	private void printItemListTitles(String mainTitle, boolean isAdmin, String... titles) {
 		printLeftTitle(mainTitle);
 		StringBuilder result = new StringBuilder();
 		result.append(Constants.formatter("Code"));

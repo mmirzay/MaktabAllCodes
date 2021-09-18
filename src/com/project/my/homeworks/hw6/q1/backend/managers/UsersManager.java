@@ -47,6 +47,10 @@ public class UsersManager {
 		return userIndex == users.length;
 	}
 
+	public boolean isAnyAddedUser() {
+		return userIndex != 0;
+	}
+
 	public User getUser(String username) {
 		for (User user : users)
 			if (user == null)
@@ -54,5 +58,12 @@ public class UsersManager {
 			else if (user.getUsername().equals(username))
 				return user;
 		return null;
+	}
+
+	public User[] getAllUsers() {
+		User[] result = new User[userIndex];
+		for (int i = 0; i < userIndex; i++)
+			result[i] = users[i];
+		return result;
 	}
 }

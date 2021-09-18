@@ -1,5 +1,7 @@
 package com.project.my.homeworks.hw6.q1.backend.services.entities.user;
 
+import com.project.my.homeworks.hw6.q1.backend.services.Constants;
+
 public class Address {
 	private String state;
 	private String city;
@@ -47,6 +49,19 @@ public class Address {
 
 	public void setPostalCode(String postalCode) {
 		this.postalCode = postalCode;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder result = new StringBuilder();
+		result.append(Constants.formatter(state));
+		result.append(Constants.COLUMNS_SEPARATOR);
+		result.append(Constants.formatter(city));
+		result.append(Constants.COLUMNS_SEPARATOR);
+		result.append(Constants.formatter(street));
+		result.append(Constants.COLUMNS_SEPARATOR);
+		result.append(Constants.formatter(postalCode));
+		return result.toString();
 	}
 
 }

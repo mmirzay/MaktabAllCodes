@@ -1,7 +1,13 @@
 package com.project.my.homeworks.hw6.q1.backend.services.entities.user;
 
+import com.project.my.homeworks.hw6.q1.backend.services.Constants;
+
 public class Email {
 	private String value;
+
+	public Email() {
+		this("");
+	}
 
 	public Email(String email) {
 		this.value = email;
@@ -9,6 +15,11 @@ public class Email {
 
 	public String get() {
 		return value;
+	}
+
+	@Override
+	public String toString() {
+		return Constants.formatter(value);
 	}
 
 }
