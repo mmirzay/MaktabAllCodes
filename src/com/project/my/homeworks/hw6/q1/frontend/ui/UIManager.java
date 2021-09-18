@@ -494,7 +494,7 @@ public class UIManager {
 			showOrdersHistory(customer);
 			break;
 		case 7:
-			showEditProfile();
+			showEditProfile(customer);
 			break;
 		case 8:
 			if (showSignOutCustomer(customer))
@@ -602,8 +602,65 @@ public class UIManager {
 		printWaitingMessage();
 	}
 
-	private void showEditProfile() {
+	private void showEditProfile(Customer customer) {
+		printTitle("Edit Profile");
+		System.out.println("1- Edit Full Name: " + customer.getFullName());
+		System.out.println("2- Edit Phone Number: " + customer.getPhone());
+		System.out.println("3- Edit Email: " + customer.getEmail());
+		System.out.println("4- Edit Address State: " + customer.getState());
+		System.out.println("5- Edit Address City: " + customer.getCity());
+		System.out.println("6- Edit Address Street: " + customer.getStreet());
+		System.out.println("7- Edit Postal Code: " + customer.getPostalCode());
+		System.out.println("8- Back");
+		printDashedBorder();
+		System.out.print(">> ");
 
+		boolean edited = false;
+		switch (getIntInputValue("")) {
+		case 1:
+			String firstName = getStringInputValue("Enter first name:");
+			String lastName = getStringInputValue("Enter last name:");
+			customer.setFullName(firstName, lastName);
+			edited = true;
+			break;
+		case 2:
+			String phone = getStringInputValue("Enter phone number:");
+			customer.setPhone(phone);
+			edited = true;
+			break;
+		case 3:
+			String email = getStringInputValue("Enter email address:");
+			customer.setEmail(email);
+			edited = true;
+			break;
+		case 4:
+			String state = getStringInputValue("Enter address state:");
+			customer.setState(state);
+			edited = true;
+			break;
+		case 5:
+			String city = getStringInputValue("Enter address city:");
+			customer.setCity(city);
+			edited = true;
+			break;
+		case 6:
+			String street = getStringInputValue("Enter address street:");
+			customer.setStreet(street);
+			edited = true;
+			break;
+		case 7:
+			String code = getStringInputValue("Enter postal code:");
+			customer.setPostalCode(code);
+			edited = true;
+			break;
+		case 8:
+			return;
+		default:
+			printErrorMessage("Invalid selection. Try again please!");
+		}
+		if (edited)
+			printInfoMessage("Profile is edited");
+		showEditProfile(customer);
 	}
 
 	private boolean showSignOutCustomer(Customer customer) {
