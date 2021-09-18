@@ -94,9 +94,10 @@ public class UIManager {
 		printTitle("Login as Customer");
 		String username = getStringInputValue("Enter username:");
 		String password = getStringInputValue("Enter username:");
-		if (onlineMarket.getUsersManager().loginUser(username, password))
-			showUserPage();
-		else
+		if (onlineMarket.getUsersManager().loginUser(username, password)) {
+			Customer customer = (Customer) onlineMarket.getUsersManager().getUser(username);
+			showUserPage(customer);
+		} else
 			printErrorMessage("Invalid username/password!");
 	}
 
@@ -187,11 +188,11 @@ public class UIManager {
 		System.out.print(result.toString());
 	}
 
-	private void showAllItems(boolean isAdmin) {
+	private boolean showAllItems(boolean isAdmin) {
 		printTitle("All Items List");
 		if (onlineMarket.getItemsManager().isAnyAddedItem() == false) {
 			printErrorMessage("There is no added item");
-			return;
+			return false;
 		}
 		Item[] books = onlineMarket.getItemsManager().getAllItemsByCategory(ItemCategory.BOOK);
 		if (books.length > 0) {
@@ -246,8 +247,10 @@ public class UIManager {
 			printItemListTitles("LED TVs:", isAdmin, "Mark", "Screen Size", "Smart");
 			printItemList(ledTVs, isAdmin);
 		}
+		if (isAdmin)
+			printWaitingMessage();
 
-		printWaitingMessage();
+		return true;
 	}
 
 	private void printItemList(Item[] items, boolean isAdmin) {
@@ -444,8 +447,8 @@ public class UIManager {
 		return ledTV;
 	}
 
-	private void showUserPage() {
-		printTitle("Customer Page");
+	private void showUserPage(Customer customer) {
+		printTitle("Customer Page (" + customer.getUsername() + ")");
 		System.out.println("1- Buy New Item");
 		System.out.println("2- Show Shopping Basket");
 		System.out.println("3- Submit Orders");
@@ -459,10 +462,10 @@ public class UIManager {
 
 		switch (getIntInputValue("")) {
 		case 1:
-			buyNewItem();
+			buyNewItem(customer);
 			break;
 		case 2:
-			showShoppingBasket();
+			showShoppingBasket(customer, false);
 			break;
 		case 3:
 			showSubmitOrders();
@@ -484,14 +487,47 @@ public class UIManager {
 		default:
 			printErrorMessage("Invalid selection. Try again please!");
 		}
-		showUserPage();
+		showUserPage(customer);
 	}
 
-	private void buyNewItem() {
-		showAllItems(false);
+	private void buyNewItem(Customer customer) {
+		if (showAllItems(false) == false)
+			return;
+		if (customer.isShoppingBasketFull()) {
+			printErrorMessage("Your shoping basket is full");
+			return;
+		}
+		String itemCode = getStringInputValue("Enter item code to buy:");
+		Item item = onlineMarket.getItemsManager().getItemByCode(itemCode);
+		if (item == null) {
+			printErrorMessage("Item Code is Invalid.");
+			return;
+		}
+
+		if (onlineMarket.getItemsManager().isItemAvailable(item) == false) {
+			printErrorMessage("Sorry, Item is not available");
+			return;
+		}
+
+		onlineMarket.getItemsManager().decreaseItemCount(item);
+		customer.addItemToBasket(item);
+		printInfoMessage("Item added to your basket");
 	}
 
-	private void showShoppingBasket() {
+	private void showShoppingBasket(Customer customer, boolean selectale) {
+		printTitle("Shopping Basket");
+		if (customer.isShoppingBasketEmpty()) {
+			printErrorMessage("Shopping basket is empty");
+			return;
+		}
+
+		int rowCounter = 1;
+		for (Item item : customer.getPurchasedItems())
+			System.out.printf("%d- %s: %s%s", rowCounter++, item.getItemCategory().toString(), item,
+					Constants.ROWS_SEPERATOR);
+
+		if (selectale == false)
+			printWaitingMessage();
 
 	}
 
@@ -537,17 +573,18 @@ public class UIManager {
 	}
 
 	private void printErrorMessage(String msg) {
+		System.out.println();
 		System.out.println("| Error: " + msg + " |");
 		printWaitingMessage();
 	}
 
 	private void printInfoMessage(String msg) {
+		System.out.println();
 		System.out.println(">>> " + msg + " <<<");
 		printWaitingMessage();
 	}
 
 	private void printWaitingMessage() {
-		System.out.println();
 		System.out.println("_____________ press Enter to continue...");
 		input.nextLine();
 	}
