@@ -2,9 +2,24 @@ package com.project.my.homeworks.hw6.q1.frontend.ui;
 
 import java.util.Scanner;
 
-import com.project.my.homeworks.hw6.q1.backend.services.*;
-import com.project.my.homeworks.hw6.q1.backend.services.entities.item.*;
-import com.project.my.homeworks.hw6.q1.backend.services.entities.user.*;
+import com.project.my.homeworks.hw6.q1.backend.services.Constants;
+import com.project.my.homeworks.hw6.q1.backend.services.OnlineMarket;
+import com.project.my.homeworks.hw6.q1.backend.services.entities.item.AnalogRadio;
+import com.project.my.homeworks.hw6.q1.backend.services.entities.item.Book;
+import com.project.my.homeworks.hw6.q1.backend.services.entities.item.DigitalRadio;
+import com.project.my.homeworks.hw6.q1.backend.services.entities.item.FormalShoe;
+import com.project.my.homeworks.hw6.q1.backend.services.entities.item.Item;
+import com.project.my.homeworks.hw6.q1.backend.services.entities.item.ItemCategory;
+import com.project.my.homeworks.hw6.q1.backend.services.entities.item.LcdTV;
+import com.project.my.homeworks.hw6.q1.backend.services.entities.item.LedTV;
+import com.project.my.homeworks.hw6.q1.backend.services.entities.item.Magazine;
+import com.project.my.homeworks.hw6.q1.backend.services.entities.item.MagazineType;
+import com.project.my.homeworks.hw6.q1.backend.services.entities.item.Newspaper;
+import com.project.my.homeworks.hw6.q1.backend.services.entities.item.Shoe;
+import com.project.my.homeworks.hw6.q1.backend.services.entities.item.ShoeType;
+import com.project.my.homeworks.hw6.q1.backend.services.entities.item.SportShoe;
+import com.project.my.homeworks.hw6.q1.backend.services.entities.user.Customer;
+import com.project.my.homeworks.hw6.q1.backend.services.entities.user.User;
 
 public class UIManager {
 	private Scanner input;
@@ -130,7 +145,7 @@ public class UIManager {
 		System.out.println("1- Add New Item");
 		System.out.println("2- List of All Items");
 		System.out.println("3- List of All Customers");
-		System.out.println("4- Back");
+		System.out.println("4- Sign out");
 		printDashedBorder();
 		System.out.print(">> ");
 		switch (getIntInputValue("")) {
@@ -401,20 +416,19 @@ public class UIManager {
 	}
 
 	private Item getShoe(Item item, boolean isSport) {
-		int size = getIntInputValue("Enter fromal shoe size:");
-		String color = getStringInputValue("Enter formal shoe color:");
-		String strFormalShoeType = getOptionalStringInputValue("Enter formal shoe type (Kids, Women, Men):")
-				.toLowerCase();
-		ShoeType formalShoeType = ShoeType.MEN;
-		if (strFormalShoeType.startsWith("w"))
-			formalShoeType = ShoeType.WOMEN;
-		else if (strFormalShoeType.startsWith("k"))
-			formalShoeType = ShoeType.KIDS;
+		int size = getIntInputValue("Enter shoe size:");
+		String color = getStringInputValue("Enter shoe color:");
+		String strShoeType = getOptionalStringInputValue("Enter shoe type (Kids, Women, Men):").toLowerCase();
+		ShoeType shoeType = ShoeType.MEN;
+		if (strShoeType.startsWith("w"))
+			shoeType = ShoeType.WOMEN;
+		else if (strShoeType.startsWith("k"))
+			shoeType = ShoeType.KIDS;
 		Shoe shoe;
 		if (isSport)
-			shoe = new SportShoe(color, size, formalShoeType, item.getCode(), item.getPrice());
+			shoe = new SportShoe(color, size, shoeType, item.getCode(), item.getPrice());
 		else
-			shoe = new FormalShoe(color, formalShoeType, size, item.getCode(), item.getPrice());
+			shoe = new FormalShoe(color, shoeType, size, item.getCode(), item.getPrice());
 		return shoe;
 	}
 
@@ -456,7 +470,7 @@ public class UIManager {
 		System.out.println("5- Increase Balance");
 		System.out.println("6- Show Orders History");
 		System.out.println("7- Edit Profile");
-		System.out.println("8- Back");
+		System.out.println("8- Sign Out");
 		printDashedBorder();
 		System.out.print(">> ");
 
@@ -468,22 +482,24 @@ public class UIManager {
 			showShoppingBasket(customer, false);
 			break;
 		case 3:
-			showSubmitOrders();
+			showSubmitOrders(customer);
 			break;
 		case 4:
-			showCancelAnOrder();
+			showCancelAnOrder(customer);
 			break;
 		case 5:
-			showIncreaseBalance();
+			showIncreaseBalance(customer);
 			break;
 		case 6:
-			showOrdersHistory();
+			showOrdersHistory(customer);
 			break;
 		case 7:
 			showEditProfile();
 			break;
 		case 8:
-			return;
+			if (showSignOutCustomer(customer))
+				return;
+			break;
 		default:
 			printErrorMessage("Invalid selection. Try again please!");
 		}
@@ -514,41 +530,88 @@ public class UIManager {
 		printInfoMessage("Item added to your basket");
 	}
 
-	private void showShoppingBasket(Customer customer, boolean selectale) {
+	private boolean showShoppingBasket(Customer customer, boolean selectale) {
 		printTitle("Shopping Basket");
 		if (customer.isShoppingBasketEmpty()) {
 			printErrorMessage("Shopping basket is empty");
-			return;
+			return false;
 		}
 
 		int rowCounter = 1;
 		for (Item item : customer.getPurchasedItems())
 			System.out.printf("%d- %s: %s%s", rowCounter++, item.getItemCategory().toString(), item,
 					Constants.ROWS_SEPERATOR);
-
+		System.out.println();
+		printLeftTitle("Final Purchase Cost: " + String.format("%,.2f", customer.getFinalPurchaseCost()));
 		if (selectale == false)
 			printWaitingMessage();
-
+		return true;
 	}
 
-	private void showSubmitOrders() {
+	private void showSubmitOrders(Customer customer) {
+		if (showShoppingBasket(customer, true) == false)
+			return;
 
+		String submit = getStringInputValue("Do you want to continue (yes/no)?").toLowerCase();
+		if (submit.startsWith("n"))
+			return;
+
+		if (customer.hasEnoughAccountBalance() == false) {
+			printErrorMessage("You don't have enough balance");
+			return;
+		}
+
+		customer.submitOrders();
+		printInfoMessage("Orders are submitted.");
 	}
 
-	private void showCancelAnOrder() {
+	private void showCancelAnOrder(Customer customer) {
+		if (showShoppingBasket(customer, true) == false)
+			return;
 
+		int selectedRow = getIntInputValue("Select a row number ( 0 to go back):");
+		if (selectedRow <= 0)
+			return;
+		if (selectedRow > customer.numberOfAllPurchasedItems()) {
+			printErrorMessage("Selected row number is invalid.");
+			return;
+		}
+
+		Item item = customer.cancelOrderByRowNumber(selectedRow);
+		onlineMarket.getItemsManager().increaseItemCount(item);
+		printInfoMessage("Order is canceled.");
 	}
 
-	private void showIncreaseBalance() {
+	private void showIncreaseBalance(Customer customer) {
+		printTitle("Increase Balance");
+		printLeftTitle("Your current account balance is: " + String.format("%,.2f", customer.getAccountBalance()));
+		int addedValue = getIntInputValue("Enter new value to add to the balance:");
+		if (addedValue <= 0) {
+			printErrorMessage("Value is Invalid.");
+			return;
+		}
 
+		customer.increaseAccountBalance(addedValue);
+		printInfoMessage("Account balance increased.");
 	}
 
-	private void showOrdersHistory() {
-
+	private void showOrdersHistory(Customer customer) {
+		printTitle("Orders History");
+		String history = customer.getOrdersHistory();
+		System.out.println(history.length() == 0 ? "History is Empty" : history);
+		printWaitingMessage();
 	}
 
 	private void showEditProfile() {
 
+	}
+
+	private boolean showSignOutCustomer(Customer customer) {
+		if (customer.isShoppingBasketEmpty() == false) {
+			printErrorMessage("Your shopping basket is not empty. Submit or Cancel orders to sign out.");
+			return false;
+		}
+		return true;
 	}
 
 	private void printTitle(String title) {
