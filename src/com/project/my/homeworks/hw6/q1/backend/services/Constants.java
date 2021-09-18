@@ -1,6 +1,7 @@
 package com.project.my.homeworks.hw6.q1.backend.services;
 
 public class Constants {
+	public static final int SHOPPING_BASKET_MAX_SIZE = 5;
 	private static final String SPACES = "%-15s";
 	public static final String COLUMNS_SEPARATOR = " | ";
 	public static final String ROWS_SEPERATOR = System.lineSeparator();

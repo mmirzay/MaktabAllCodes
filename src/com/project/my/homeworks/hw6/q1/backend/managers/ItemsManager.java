@@ -52,4 +52,21 @@ public class ItemsManager {
 	public int getItemCount(Item item) {
 		return warehouseManager.getItemCount(item.getCode());
 	}
+
+	public boolean isItemAvailable(Item item) {
+		return getItemCount(item) != 0;
+	}
+
+	public Item getItemByCode(String itemCode) {
+		for (Item item : items)
+			if (item == null)
+				break;
+			else if (item.getCode().equalsIgnoreCase(itemCode))
+				return item;
+		return null;
+	}
+
+	public void decreaseItemCount(Item item) {
+		warehouseManager.decreaseItemCount(item.getCode());
+	}
 }
