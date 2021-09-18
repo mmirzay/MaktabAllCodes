@@ -16,6 +16,9 @@ public class Magazine extends Readable {
 
 	@Override
 	public String toString() {
-		return super.toString().formatted(Constants.formatter(type.name()));
+		StringBuilder discount = new StringBuilder("");
+		discount.append(Constants.COLUMNS_SEPARATOR);
+		discount.append(Constants.formatter(getDiscount() != 0 ? (int) (getDiscount() * 100) + "%" : ""));
+		return super.toString().formatted(Constants.formatter(type.name())) + discount;
 	}
 }

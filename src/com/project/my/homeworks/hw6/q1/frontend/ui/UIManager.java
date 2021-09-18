@@ -196,78 +196,65 @@ public class UIManager {
 		Item[] books = onlineMarket.getItemsManager().getAllItemsByCategory(ItemCategory.BOOK);
 		if (books.length > 0) {
 			printItemListTitles("Books:", isAdmin, "Title", "Author Name");
-			for (Item item : books)
-				System.out.printf("%s%s%n", item,
-						isAdmin ? Constants.COLUMNS_SEPARATOR + onlineMarket.getItemsManager().getItemCount(item) : "");
+			printItemList(books, isAdmin);
 		}
 
 		Item[] newspapers = onlineMarket.getItemsManager().getAllItemsByCategory(ItemCategory.NEWSPAPER);
 		if (newspapers.length > 0) {
 			printItemListTitles("Newspapers:", isAdmin, "Title", "Date");
-			for (Item item : newspapers)
-				System.out.printf("%s%s%n", item,
-						isAdmin ? Constants.COLUMNS_SEPARATOR + onlineMarket.getItemsManager().getItemCount(item) : "");
+			printItemList(newspapers, isAdmin);
 		}
 
 		Item[] magazines = onlineMarket.getItemsManager().getAllItemsByCategory(ItemCategory.MAGAZINE);
 		if (magazines.length > 0) {
 			printItemListTitles("Magazines:", isAdmin, "Title", "Type");
-			for (Item item : magazines)
-				System.out.printf("%s%s%n", item,
-						isAdmin ? Constants.COLUMNS_SEPARATOR + onlineMarket.getItemsManager().getItemCount(item) : "");
+			printItemList(magazines, isAdmin);
 		}
 
 		Item[] formalShoes = onlineMarket.getItemsManager().getAllItemsByCategory(ItemCategory.FORMAL_SHOE);
 		if (formalShoes.length > 0) {
 			printItemListTitles("Formal Shoes:", isAdmin, "Color", "Size", "Type");
-			for (Item item : formalShoes)
-				System.out.printf("%s%s%n", item,
-						isAdmin ? Constants.COLUMNS_SEPARATOR + onlineMarket.getItemsManager().getItemCount(item) : "");
+			printItemList(formalShoes, isAdmin);
 		}
 
 		Item[] sportShoes = onlineMarket.getItemsManager().getAllItemsByCategory(ItemCategory.SPORT_SHOE);
 		if (sportShoes.length > 0) {
-			printItemListTitles("Sport Shoes:", isAdmin, "Color", "Size");
-			for (Item item : sportShoes)
-				System.out.printf("%s%s%n", item,
-						isAdmin ? Constants.COLUMNS_SEPARATOR + onlineMarket.getItemsManager().getItemCount(item) : "");
+			printItemListTitles("Sport Shoes:", isAdmin, "Color", "Size", "Type");
+			printItemList(sportShoes, isAdmin);
 		}
 
 		Item[] analogRadios = onlineMarket.getItemsManager().getAllItemsByCategory(ItemCategory.ANALOG_RADIO);
 		if (analogRadios.length > 0) {
 			printItemListTitles("Analog Radios:", isAdmin, "Mark", "Chargeable");
-			for (Item item : analogRadios)
-				System.out.printf("%s%s%n", item,
-						isAdmin ? Constants.COLUMNS_SEPARATOR + onlineMarket.getItemsManager().getItemCount(item) : "");
+			printItemList(analogRadios, isAdmin);
 		}
 
 		Item[] digitalRadios = onlineMarket.getItemsManager().getAllItemsByCategory(ItemCategory.DIGITAL_RADIO);
 		if (digitalRadios.length > 0) {
 			printItemListTitles("Digital Radios:", isAdmin, "Mark", "Chargeable");
-			for (Item item : digitalRadios)
-				System.out.printf("%s%s%n", item,
-						isAdmin ? Constants.COLUMNS_SEPARATOR + onlineMarket.getItemsManager().getItemCount(item) : "");
+			printItemList(digitalRadios, isAdmin);
 		}
 
 		Item[] lcdTVs = onlineMarket.getItemsManager().getAllItemsByCategory(ItemCategory.LCD_TV);
 		if (lcdTVs.length > 0) {
 			printItemListTitles("LCD TVs:", isAdmin, "Mark", "Screen Size", "Smart");
-			for (Item item : lcdTVs)
-				System.out.printf("%s%s%s", item,
-						isAdmin ? Constants.COLUMNS_SEPARATOR + onlineMarket.getItemsManager().getItemCount(item) : "",
-						Constants.ROWS_SEPERATOR);
+			printItemList(lcdTVs, isAdmin);
 		}
 
 		Item[] ledTVs = onlineMarket.getItemsManager().getAllItemsByCategory(ItemCategory.LED_TV);
 		if (ledTVs.length > 0) {
 			printItemListTitles("LED TVs:", isAdmin, "Mark", "Screen Size", "Smart");
-			for (Item item : ledTVs)
-				System.out.printf("%s%s%n", item,
-						isAdmin ? Constants.COLUMNS_SEPARATOR + onlineMarket.getItemsManager().getItemCount(item) : "");
+			printItemList(ledTVs, isAdmin);
 		}
 
 		printWaitingMessage();
+	}
 
+	private void printItemList(Item[] items, boolean isAdmin) {
+		for (Item item : items)
+			System.out.printf("%s%s%s", item,
+					isAdmin ? Constants.COLUMNS_SEPARATOR + onlineMarket.getItemsManager().getItemCount(item) : "",
+					Constants.ROWS_SEPERATOR);
 	}
 
 	private void printItemListTitles(String mainTitle, boolean isAdmin, String... titles) {
@@ -281,11 +268,11 @@ public class UIManager {
 		}
 		result.append(Constants.formatter("Price"));
 		result.append(Constants.COLUMNS_SEPARATOR);
-		if (isAdmin) {
-			result.append(Constants.formatter("Count"));
-			result.append(Constants.COLUMNS_SEPARATOR);
-		}
 		result.append(Constants.formatter("OFF"));
+		if (isAdmin) {
+			result.append(Constants.COLUMNS_SEPARATOR);
+			result.append(Constants.formatter("Count"));
+		}
 		result.append(Constants.ROWS_SEPERATOR);
 		System.out.print(result.toString());
 	}
@@ -317,10 +304,10 @@ public class UIManager {
 			item = getMagazine(item);
 			break;
 		case FORMAL_SHOE:
-			item = getFormalShoe(item);
+			item = getShoe(item, false);
 			break;
 		case SPORT_SHOE:
-			item = getSportShoe(item);
+			item = getShoe(item, true);
 			break;
 		case ANALOG_RADIO:
 			item = getAnalogRadio(item);
@@ -410,25 +397,22 @@ public class UIManager {
 		return magazine;
 	}
 
-	private Item getFormalShoe(Item item) {
+	private Item getShoe(Item item, boolean isSport) {
 		int size = getIntInputValue("Enter fromal shoe size:");
 		String color = getStringInputValue("Enter formal shoe color:");
 		String strFormalShoeType = getOptionalStringInputValue("Enter formal shoe type (Kids, Women, Men):")
 				.toLowerCase();
-		FormalShoeType formalShoeType = FormalShoeType.MEN;
+		ShoeType formalShoeType = ShoeType.MEN;
 		if (strFormalShoeType.startsWith("w"))
-			formalShoeType = FormalShoeType.WOMEN;
+			formalShoeType = ShoeType.WOMEN;
 		else if (strFormalShoeType.startsWith("k"))
-			formalShoeType = FormalShoeType.KIDS;
-		FormalShoe formalShoe = new FormalShoe(color, formalShoeType, size, item.getCode(), item.getPrice());
-		return formalShoe;
-	}
-
-	private Item getSportShoe(Item item) {
-		int size = getIntInputValue("Enter sport shoe size:");
-		String color = getStringInputValue("Enter sport shoe color:");
-		SportShoe sportShoe = new SportShoe(color, size, item.getCode(), item.getPrice());
-		return sportShoe;
+			formalShoeType = ShoeType.KIDS;
+		Shoe shoe;
+		if (isSport)
+			shoe = new SportShoe(color, size, formalShoeType, item.getCode(), item.getPrice());
+		else
+			shoe = new FormalShoe(color, formalShoeType, size, item.getCode(), item.getPrice());
+		return shoe;
 	}
 
 	private Item getAnalogRadio(Item item) {
@@ -464,14 +448,71 @@ public class UIManager {
 		printTitle("Customer Page");
 		System.out.println("1- Buy New Item");
 		System.out.println("2- Show Shopping Basket");
-		System.out.println("6- Submit Orders");
-		System.out.println("3- Cancel an Order");
-		System.out.println("4- Increase Balance");
-		System.out.println("5- Show Orders History");
-		System.out.println("6- Edit Profile Information");
-		System.out.println("7- Back");
+		System.out.println("3- Submit Orders");
+		System.out.println("4- Cancel an Order");
+		System.out.println("5- Increase Balance");
+		System.out.println("6- Show Orders History");
+		System.out.println("7- Edit Profile");
+		System.out.println("8- Back");
 		printDashedBorder();
 		System.out.print(">> ");
+
+		switch (getIntInputValue("")) {
+		case 1:
+			buyNewItem();
+			break;
+		case 2:
+			showShoppingBasket();
+			break;
+		case 3:
+			showSubmitOrders();
+			break;
+		case 4:
+			showCancelAnOrder();
+			break;
+		case 5:
+			showIncreaseBalance();
+			break;
+		case 6:
+			showOrdersHistory();
+			break;
+		case 7:
+			showEditProfile();
+			break;
+		case 8:
+			return;
+		default:
+			printErrorMessage("Invalid selection. Try again please!");
+		}
+		showUserPage();
+	}
+
+	private void buyNewItem() {
+		showAllItems(false);
+	}
+
+	private void showShoppingBasket() {
+
+	}
+
+	private void showSubmitOrders() {
+
+	}
+
+	private void showCancelAnOrder() {
+
+	}
+
+	private void showIncreaseBalance() {
+
+	}
+
+	private void showOrdersHistory() {
+
+	}
+
+	private void showEditProfile() {
+
 	}
 
 	private void printTitle(String title) {

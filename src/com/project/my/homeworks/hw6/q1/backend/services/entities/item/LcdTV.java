@@ -11,6 +11,9 @@ public class LcdTV extends TV {
 
 	@Override
 	public String toString() {
-		return super.toString().formatted(Constants.formatter("No"));
+		StringBuilder discount = new StringBuilder("");
+		discount.append(Constants.COLUMNS_SEPARATOR);
+		discount.append(Constants.formatter(getDiscount() != 0 ? (int) (getDiscount() * 100) + "%" : ""));
+		return super.toString().formatted(Constants.formatter("No")) + discount;
 	}
 }
