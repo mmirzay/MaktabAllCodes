@@ -69,4 +69,7 @@ public class ItemsManager {
 	public void decreaseItemCount(Item item) {
 		warehouseManager.decreaseItemCount(item.getCode());
 	}
+	public void increaseItemCount(Item item) {
+		warehouseManager.increaseItemCount(item.getCode());
+	}
 }

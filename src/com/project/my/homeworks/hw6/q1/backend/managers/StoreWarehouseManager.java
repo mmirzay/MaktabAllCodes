@@ -25,6 +25,10 @@ public class StoreWarehouseManager {
 		itemCounts[getItemIndex(itemCode)]--;
 	}
 
+	void increaseItemCount(String itemCode) {
+		itemCounts[getItemIndex(itemCode)]++;
+	}
+
 	boolean isItemAvailable(String itemCode) {
 		return itemCounts[getItemIndex(itemCode)] != 0;
 	}
