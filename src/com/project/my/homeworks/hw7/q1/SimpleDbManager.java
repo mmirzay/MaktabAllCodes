@@ -19,8 +19,8 @@ public class SimpleDbManager {
 		String createTeacherStudentTable = "CREATE TABLE IF NOT EXISTS maktab_schema.teacher_student (\n"
 				+ "	id INT auto_increment NOT NULL,\n" + "	teacher_id INT NULL,\n" + "	student_id INT NULL,\n"
 				+ "	CONSTRAINT teacher_student_pk PRIMARY KEY (id),\n"
-				+ "	CONSTRAINT teacher_student_FK_student FOREIGN KEY (student_id) REFERENCES maktab_schema.student(id),\n"
-				+ "	CONSTRAINT teacher_student_FK_teacher FOREIGN KEY (teacher_id) REFERENCES maktab_schema.teacher(id)\n"
+				+ "	CONSTRAINT teacher_student_FK_student FOREIGN KEY (student_id) REFERENCES maktab_schema.student(id) ON DELETE CASCADE ON UPDATE CASCADE,\n"
+				+ "	CONSTRAINT teacher_student_FK_teacher FOREIGN KEY (teacher_id) REFERENCES maktab_schema.teacher(id) ON DELETE CASCADE ON UPDATE CASCADE\n"
 				+ ")\n" + "ENGINE=InnoDB\n;";
 		Connection connection = DbConnection.getConnection();
 		Statement statement = connection.createStatement();
@@ -47,5 +47,44 @@ public class SimpleDbManager {
 		statement.setInt(1, id);
 		ResultSet result = statement.executeQuery();
 		return result.next();
+	}
+
+	void updateTeacher(Teacher teacher) throws SQLException {
+		String sql = "UPDATE maktab_schema.teacher SET first_name=?, last_name=? WHERE id=?;";
+		Connection connection = DbConnection.getConnection();
+		PreparedStatement statement = connection.prepareStatement(sql);
+		statement.setString(1, teacher.getFirstName());
+		statement.setString(2, teacher.getLastName());
+		statement.setInt(3, teacher.getId());
+		statement.execute();
+	}
+
+	public void removeTeacherById(int id) throws SQLException {
+		String sql = "DELETE FROM maktab_schema.teacher WHERE id=?;";
+		Connection connection = DbConnection.getConnection();
+		PreparedStatement statement = connection.prepareStatement(sql);
+		statement.setInt(1, id);
+		statement.execute();
+
+	}
+
+	public String fetchAllTeachers() throws SQLException {
+		StringBuilder result = new StringBuilder();
+		String sql = "SELECT id, first_name, last_name FROM maktab_schema.teacher;";
+		Connection connection = DbConnection.getConnection();
+		Statement statement = connection.createStatement();
+		ResultSet resultSet = statement.executeQuery(sql);
+		Teacher teacher = null;
+		while (resultSet.next()) {
+			int id = resultSet.getInt("id");
+			String firstName = resultSet.getString("first_name");
+			String lastName = resultSet.getString("last_name");
+			teacher = new Teacher(id, firstName, lastName);
+			if (result.isEmpty() == false)
+				result.append(System.lineSeparator());
+			result.append(teacher.toString());
+		}
+
+		return result.toString();
 	}
 }
