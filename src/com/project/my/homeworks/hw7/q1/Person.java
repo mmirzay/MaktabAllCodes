@@ -23,4 +23,14 @@ public class Person {
 		return lastName;
 	}
 
+	@Override
+	public String toString() {
+		String type = "Person";
+		if (this instanceof Teacher)
+			type = "Teacher";
+		else if (this instanceof Student)
+			type = "Student";
+		return String.format("%s ID: %d Name: %s %s.", type, id, firstName, lastName);
+	}
+
 }
