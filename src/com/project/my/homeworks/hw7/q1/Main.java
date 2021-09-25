@@ -17,7 +17,8 @@ public class Main {
 			long end = System.currentTimeMillis();
 			System.out.println("Database is conneted in " + (end - start) / 1000 + " seconds.");
 		} catch (SQLException e) {
-			ui.printErrorMessage("Error while creating database: " + e.getMessage());
+			ui.printErrorMessage("Error while creating database. Check configurations: " + e.getMessage());
+			return;
 		}
 
 		while (true) {
