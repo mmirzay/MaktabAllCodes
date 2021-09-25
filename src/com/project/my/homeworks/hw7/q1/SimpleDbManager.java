@@ -82,7 +82,7 @@ public class SimpleDbManager {
 			teacher = new Teacher(id, firstName, lastName);
 			if (result.isEmpty() == false)
 				result.append(System.lineSeparator());
-			result.append(teacher.toString());
+			result.append(" -" +teacher.toString());
 		}
 
 		return result.toString();
@@ -140,7 +140,82 @@ public class SimpleDbManager {
 			student = new Student(id, firstName, lastName);
 			if (result.isEmpty() == false)
 				result.append(System.lineSeparator());
-			result.append(student.toString());
+			result.append(" -" +student.toString());
+		}
+
+		return result.toString();
+	}
+
+	public boolean isStudentAssignedForTeacher(int teacherId, int studentId) throws SQLException {
+		String sql = "SELECT id FROM maktab_schema.teacher_student WHERE teacher_id=? AND student_id=?;";
+		Connection connection = DbConnection.getConnection();
+		PreparedStatement statement = connection.prepareStatement(sql);
+		statement.setInt(1, teacherId);
+		statement.setInt(2, studentId);
+		ResultSet result = statement.executeQuery();
+		return result.next();
+
+	}
+
+	public void assignStudentForTeacher(int teacherId, int studentId) throws SQLException {
+		String sql = "INSERT INTO maktab_schema.teacher_student (teacher_id, student_id) VALUES(?, ?);";
+		Connection connection = DbConnection.getConnection();
+		PreparedStatement statement = connection.prepareStatement(sql);
+		statement.setInt(1, teacherId);
+		statement.setInt(2, studentId);
+		statement.execute();
+	}
+
+	public void removeStudentOfTeacher(int teacherId, int studentId) throws SQLException {
+		String sql = "DELETE FROM maktab_schema.teacher_student WHERE teacher_id=? AND student_id=?;";
+		Connection connection = DbConnection.getConnection();
+		PreparedStatement statement = connection.prepareStatement(sql);
+		statement.setInt(1, teacherId);
+		statement.setInt(2, studentId);
+		statement.execute();
+	}
+
+	public String fetchAllTeachersStudents(int teacherId) throws SQLException {
+		StringBuilder result = new StringBuilder();
+		String sql = "SELECT * FROM maktab_schema.student s"
+				+ " WHERE s.id IN (SELECT ts.student_id FROM maktab_schema.teacher_student ts, maktab_schema.teacher t"
+				+ " WHERE t.id = ts.teacher_id AND ts.teacher_id=? );";
+		Connection connection = DbConnection.getConnection();
+		PreparedStatement statement = connection.prepareStatement(sql);
+		statement.setInt(1, teacherId);
+		ResultSet resultSet = statement.executeQuery();
+		Student student = null;
+		while (resultSet.next()) {
+			int id = resultSet.getInt("id");
+			String firstName = resultSet.getString("first_name");
+			String lastName = resultSet.getString("last_name");
+			student = new Student(id, firstName, lastName);
+			if (result.isEmpty() == false)
+				result.append(System.lineSeparator());
+			result.append(" -" + student.toString());
+		}
+
+		return result.toString();
+	}
+
+	public String fetchAllStudentsTeachers(int studentId) throws SQLException {
+		StringBuilder result = new StringBuilder();
+		String sql = "SELECT * FROM maktab_schema.teacher t"
+				+ " WHERE t.id IN (SELECT ts.teacher_id FROM maktab_schema.teacher_student ts, maktab_schema.student s"
+				+ " WHERE s.id = ts.student_id AND ts.student_id=? );";
+		Connection connection = DbConnection.getConnection();
+		PreparedStatement statement = connection.prepareStatement(sql);
+		statement.setInt(1, studentId);
+		ResultSet resultSet = statement.executeQuery();
+		Teacher teacher = null;
+		while (resultSet.next()) {
+			int id = resultSet.getInt("id");
+			String firstName = resultSet.getString("first_name");
+			String lastName = resultSet.getString("last_name");
+			teacher = new Teacher(id, firstName, lastName);
+			if (result.isEmpty() == false)
+				result.append(System.lineSeparator());
+			result.append(" -" + teacher.toString());
 		}
 
 		return result.toString();
