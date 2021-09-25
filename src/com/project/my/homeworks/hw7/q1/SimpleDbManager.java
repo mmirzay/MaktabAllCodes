@@ -1,6 +1,8 @@
 package com.project.my.homeworks.hw7.q1;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -26,5 +28,24 @@ public class SimpleDbManager {
 		statement.execute(createStudenTable);
 		statement.execute(createTeacherTable);
 		statement.execute(createTeacherStudentTable);
+	}
+
+	void addNewTeacher(Teacher teacher) throws SQLException {
+		String sql = "INSERT INTO maktab_schema.teacher (id, first_name, last_name) VALUES(?, ?, ?);";
+		Connection connection = DbConnection.getConnection();
+		PreparedStatement statement = connection.prepareStatement(sql);
+		statement.setInt(1, teacher.getId());
+		statement.setString(2, teacher.getFirstName());
+		statement.setString(3, teacher.getLastName());
+		statement.execute();
+	}
+
+	boolean isDuplicateTeacherId(int id) throws SQLException {
+		String sql = "SELECT id FROM maktab_schema.teacher WHERE id = ?;";
+		Connection connection = DbConnection.getConnection();
+		PreparedStatement statement = connection.prepareStatement(sql);
+		statement.setInt(1, id);
+		ResultSet result = statement.executeQuery();
+		return result.next();
 	}
 }
