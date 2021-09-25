@@ -87,4 +87,62 @@ public class SimpleDbManager {
 
 		return result.toString();
 	}
+
+	void addNewStudent(Student student) throws SQLException {
+		String sql = "INSERT INTO maktab_schema.student (id, first_name, last_name) VALUES(?, ?, ?);";
+		Connection connection = DbConnection.getConnection();
+		PreparedStatement statement = connection.prepareStatement(sql);
+		statement.setInt(1, student.getId());
+		statement.setString(2, student.getFirstName());
+		statement.setString(3, student.getLastName());
+		statement.execute();
+	}
+
+	boolean isDuplicateStudentId(int id) throws SQLException {
+		String sql = "SELECT id FROM maktab_schema.student WHERE id = ?;";
+		Connection connection = DbConnection.getConnection();
+		PreparedStatement statement = connection.prepareStatement(sql);
+		statement.setInt(1, id);
+		ResultSet result = statement.executeQuery();
+		return result.next();
+	}
+
+	void updateStudent(Student student) throws SQLException {
+		String sql = "UPDATE maktab_schema.student SET first_name=?, last_name=? WHERE id=?;";
+		Connection connection = DbConnection.getConnection();
+		PreparedStatement statement = connection.prepareStatement(sql);
+		statement.setString(1, student.getFirstName());
+		statement.setString(2, student.getLastName());
+		statement.setInt(3, student.getId());
+		statement.execute();
+	}
+
+	public void removeStudentById(int id) throws SQLException {
+		String sql = "DELETE FROM maktab_schema.student WHERE id=?;";
+		Connection connection = DbConnection.getConnection();
+		PreparedStatement statement = connection.prepareStatement(sql);
+		statement.setInt(1, id);
+		statement.execute();
+
+	}
+
+	public String fetchAllStudents() throws SQLException {
+		StringBuilder result = new StringBuilder();
+		String sql = "SELECT id, first_name, last_name FROM maktab_schema.student;";
+		Connection connection = DbConnection.getConnection();
+		Statement statement = connection.createStatement();
+		ResultSet resultSet = statement.executeQuery(sql);
+		Student student = null;
+		while (resultSet.next()) {
+			int id = resultSet.getInt("id");
+			String firstName = resultSet.getString("first_name");
+			String lastName = resultSet.getString("last_name");
+			student = new Student(id, firstName, lastName);
+			if (result.isEmpty() == false)
+				result.append(System.lineSeparator());
+			result.append(student.toString());
+		}
+
+		return result.toString();
+	}
 }
