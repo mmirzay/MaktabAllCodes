@@ -15,10 +15,6 @@ public class Coach {
 		return id;
 	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
-
 	public Team getTeam() {
 		return team;
 	}

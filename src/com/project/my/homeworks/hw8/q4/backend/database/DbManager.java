@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import com.project.my.homeworks.hw8.q4.backend.entities.City;
+import com.project.my.homeworks.hw8.q4.backend.entities.Coach;
+import com.project.my.homeworks.hw8.q4.backend.entities.Stadium;
 import com.project.my.homeworks.hw8.q4.backend.exceptions.DbException;
 
 public class DbManager {
@@ -25,12 +27,15 @@ public class DbManager {
 					+ " PRIMARY KEY (name)," + " KEY stadium_city_FK (city_name),"
 					+ " CONSTRAINT stadium_city_FK FOREIGN KEY (city_name) REFERENCES city (name) ON DELETE CASCADE ON UPDATE CASCADE"
 					+ " )" + " ENGINE=InnoDB;";
+
+			private static String INSERT_STADIUM = "INSERT INTO maktab_league_schema.stadium (name, capacity, city_name) VALUES(?, ?, ?);";
 		}
 
 		private static class Coach {
 			private static String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS maktab_league_schema.coach ("
-					+ " id int NOT NULL AUTO_INCREMENT," + " name varchar(25) NOT NULL," + " PRIMARY KEY (id)" + ")"
+					+ " id int NOT NULL," + " name varchar(25) NOT NULL," + " PRIMARY KEY (id)" + ")"
 					+ " ENGINE=InnoDB;";
+			private static String INSERT_COACH = "INSERT INTO maktab_league_schema.coach (id, name) VALUES(?, ?);";
 		}
 
 		private static class Team {
@@ -245,6 +250,31 @@ public class DbManager {
 
 		} catch (SQLException e) {
 			throw new DbException("Error while inserting city: " + city.toString(), e);
+		}
+	}
+
+	public void insertStadium(Stadium stadium) throws DbException {
+		try (Connection connection = getConnection();
+				PreparedStatement statement = connection.prepareStatement(Statements.Stadium.INSERT_STADIUM);) {
+			statement.setString(1, stadium.getName());
+			statement.setInt(2, stadium.getCapacity());
+			statement.setString(3, stadium.getCity().getName());
+			statement.execute();
+
+		} catch (SQLException e) {
+			throw new DbException("Error while inserting stadium: " + stadium.toString(), e);
+		}
+	}
+
+	public void insertCoach(Coach coach) throws DbException {
+		try (Connection connection = getConnection();
+				PreparedStatement statement = connection.prepareStatement(Statements.Coach.INSERT_COACH);) {
+			statement.setInt(1, coach.getId());
+			statement.setString(2, coach.getName());
+			statement.execute();
+
+		} catch (SQLException e) {
+			throw new DbException("Error while inserting coach: " + coach.toString(), e);
 		}
 	}
 
