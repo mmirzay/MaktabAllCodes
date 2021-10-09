@@ -1,18 +1,20 @@
 package com.project.my.homeworks.hw8.q4.backend.entities;
 
+import java.sql.Date;
+
 public class Match {
 	private int id;
 	private Team home;
 	private Team away;
 	private Stadium stadium;
-	private int year;
+	private Date date;
 
-	public Match(int id, Team home, Team away, Stadium stadium, int year) {
+	public Match(int id, Team home, Team away, Stadium stadium, Date date) {
 		this.id = id;
 		this.home = home;
 		this.away = away;
 		this.stadium = stadium;
-		this.year = year;
+		this.date = date;
 	}
 
 	public int getId() {
@@ -35,8 +37,8 @@ public class Match {
 		return stadium;
 	}
 
-	public int getYear() {
-		return year;
+	public Date getDate() {
+		return date;
 	}
 
 }
