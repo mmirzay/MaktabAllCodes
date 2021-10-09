@@ -120,4 +120,12 @@ public class LeagueManager {
 			throw new ServiceExeption("error while getting most paid players list", e);
 		}
 	}
+
+	public List<String> getCityTeamsNumberList() throws ServiceExeption {
+		try {
+			return dbManager.fetchCitiesTeamNumberList();
+		} catch (DbException e) {
+			throw new ServiceExeption("error while getting cities teams number list", e);
+		}
+	}
 }

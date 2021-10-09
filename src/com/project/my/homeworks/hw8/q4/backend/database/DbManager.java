@@ -29,6 +29,9 @@ public class DbManager {
 		private static class City {
 			private static String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS maktab_league_schema.city (name varchar(25) NOT NULL,  PRIMARY KEY (name)) ENGINE=InnoDB";
 			private static String INSERT_CITY = "INSERT INTO maktab_league_schema.city (name) VALUES(?);";
+			private static String FETCH_CITY_TEAM_NUMBERS = "SELECT" + "	city.name," + "	count(*) AS number"
+					+ " FROM" + "	maktab_league_schema.city," + "	maktab_league_schema.team" + " WHERE"
+					+ "	team.city_name = city.name" + " GROUP BY city.name" + " ORDER BY number DESC;";
 		}
 
 		private static class Stadium {
@@ -492,6 +495,23 @@ public class DbManager {
 
 		} catch (SQLException e) {
 			throw new DbException("Error while fetching highest paid players list", e);
+		}
+		return result;
+	}
+
+	public List<String> fetchCitiesTeamNumberList() throws DbException {
+		List<String> result = new ArrayList<>();
+		try (Connection connection = getConnection();
+				PreparedStatement statement = connection.prepareStatement(Statements.City.FETCH_CITY_TEAM_NUMBERS);) {
+			ResultSet resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				String cityName = resultSet.getString("name");
+				int number = resultSet.getInt("number");
+				result.add("name: " + cityName + " teams: " + number);
+			}
+
+		} catch (SQLException e) {
+			throw new DbException("Error while fetching cities list", e);
 		}
 		return result;
 	}

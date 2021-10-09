@@ -10,6 +10,7 @@ public class LeagueUiManager {
 		System.out.println("1- show league table");
 		System.out.println("2- show highest paid coach");
 		System.out.println("3- show 10 highest paid players");
+		System.out.println("4- show cities teams number");
 	}
 
 	public void showLeageTable(List<TeamLeagueInfo> table) {
@@ -42,7 +43,7 @@ public class LeagueUiManager {
 		Printer.printInfoMessage(highestPaidCoach);
 	}
 
-	public void showMostPaidPlayersList(List<String> mostPaidPlayersList) {
+	public void showStringList(List<String> mostPaidPlayersList) {
 		int row = 1;
 		for (String s : mostPaidPlayersList)
 			System.out.println("#" + row++ + " " + s);

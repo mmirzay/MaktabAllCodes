@@ -233,7 +233,8 @@ public class LeagueController {
 		switch (Input.getIntInputValue(">>")) {
 		case 1 -> ui.showLeageTable(leagueManager.getLeagueTable().getTeamsTable());
 		case 2 -> ui.showMostPaidCoach(leagueManager.getHighestPaidCoach());
-		case 3 -> ui.showMostPaidPlayersList(leagueManager.getMostPaidPlayersList());
+		case 3 -> ui.showStringList(leagueManager.getMostPaidPlayersList());
+		case 4 -> ui.showStringList(leagueManager.getCityTeamsNumberList());
 		default -> Printer.printErrorMessage("invalid selection");
 		}
 	}
