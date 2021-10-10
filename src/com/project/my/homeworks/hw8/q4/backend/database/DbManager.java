@@ -14,6 +14,7 @@ import com.project.my.homeworks.hw8.q4.backend.entities.Match;
 import com.project.my.homeworks.hw8.q4.backend.entities.PersonRole;
 import com.project.my.homeworks.hw8.q4.backend.entities.Player;
 import com.project.my.homeworks.hw8.q4.backend.entities.PlayerMatchInfo;
+import com.project.my.homeworks.hw8.q4.backend.entities.PlayerPosition;
 import com.project.my.homeworks.hw8.q4.backend.entities.Stadium;
 import com.project.my.homeworks.hw8.q4.backend.entities.Team;
 import com.project.my.homeworks.hw8.q4.backend.entities.TeamLeagueInfo;
@@ -32,6 +33,7 @@ public class DbManager {
 			private static String FETCH_CITY_TEAM_NUMBERS = "SELECT" + "	city.name," + "	count(*) AS number"
 					+ " FROM" + "	maktab_league_schema.city," + "	maktab_league_schema.team" + " WHERE"
 					+ "	team.city_name = city.name" + " GROUP BY city.name" + " ORDER BY number DESC;";
+			private static String DELETE_ALL = "DELETE FROM maktab_league_schema.city;";
 		}
 
 		private static class Stadium {
@@ -42,6 +44,7 @@ public class DbManager {
 					+ " )" + " ENGINE=InnoDB;";
 
 			private static String INSERT_STADIUM = "INSERT INTO maktab_league_schema.stadium (name, capacity, city_name) VALUES(?, ?, ?);";
+			private static String DELETE_ALL = "DELETE FROM maktab_league_schema.stadium;";
 		}
 
 		private static class Coach {
@@ -49,6 +52,7 @@ public class DbManager {
 					+ " id int NOT NULL," + " name varchar(25) NOT NULL," + " PRIMARY KEY (id)" + ")"
 					+ " ENGINE=InnoDB;";
 			private static String INSERT_COACH = "INSERT INTO maktab_league_schema.coach (id, name) VALUES(?, ?);";
+			private static String DELETE_ALL = "DELETE FROM maktab_league_schema.coach;";
 		}
 
 		private static class Team {
@@ -60,6 +64,7 @@ public class DbManager {
 					+ " CONSTRAINT team_coach_FK FOREIGN KEY (coach_id) REFERENCES coach (id) ON DELETE CASCADE ON UPDATE CASCADE"
 					+ " ) ENGINE=InnoDB;";
 			private static String INSERT_TEAM = "INSERT INTO maktab_league_schema.team (name, coach_id, captain_id, city_name) VALUES(?, ?, ?, ?);";
+			private static String DELETE_ALL = "DELETE FROM maktab_league_schema.team;";
 		}
 
 		private static class Player {
@@ -70,6 +75,9 @@ public class DbManager {
 					+ " CONSTRAINT player_FK FOREIGN KEY (team_name) REFERENCES team (name) ON DELETE CASCADE ON UPDATE CASCADE"
 					+ " ) ENGINE=InnoDB;";
 			private static String INSERT_PLAYER = "INSERT INTO maktab_league_schema.player (id, name, position, skill_level, team_name) VALUES(?, ?, ?, ?, ?);";
+			private static String FETCH_TOP_SKILLED_PLAYERS = "SELECT *" + " FROM maktab_league_schema.player"
+					+ " GROUP BY name" + " ORDER BY skill_level DESC" + " LIMIT 10;";
+			private static String DELETE_ALL = "DELETE FROM maktab_league_schema.player;";
 		}
 
 		private static class Match {
@@ -84,6 +92,7 @@ public class DbManager {
 					+ " CONSTRAINT match_stadium_FK FOREIGN KEY (stadium_name) REFERENCES stadium (name) ON DELETE CASCADE ON UPDATE CASCADE"
 					+ " ) ENGINE=InnoDB;";
 			private static String INSERT_MATCH = "INSERT INTO maktab_league_schema.match (id, home_team_name, away_team_name, date, stadium_name) VALUES(?, ?, ?, ?, ?);";
+			private static String DELETE_ALL = "DELETE FROM maktab_league_schema.match;";
 		}
 
 		private static class Contract {
@@ -105,6 +114,7 @@ public class DbManager {
 					+ "	maktab_league_schema.player," + "	maktab_league_schema.contract,"
 					+ "	maktab_league_schema.team" + " WHERE" + "	player.id = contract.person_id"
 					+ "	AND team.name = player.team_name" + " ORDER BY" + "	contract.payment DESC" + " LIMIT 10;";
+			private static String DELETE_ALL = "DELETE FROM maktab_league_schema.contract;";
 
 		}
 
@@ -117,6 +127,15 @@ public class DbManager {
 					+ " CONSTRAINT player_match_info_match_FK FOREIGN KEY (match_id) REFERENCES maktab_league_schema.match (id) ON DELETE CASCADE ON UPDATE CASCADE"
 					+ ") ENGINE=InnoDB;";
 			private static String INSERT_MATCH_INFO = "INSERT INTO maktab_league_schema.player_match_info (player_id, match_id, number_of_goals, number_of_assists) VALUES(?, ?, ?, ?);";
+			private static String FETCH_TOP_PLAYERS_GOAL = "SELECT" + "	p.name," + "	p.position,"
+					+ "	p.team_name," + "	sum(pmi.number_of_goals) AS goals"
+					+ " FROM maktab_league_schema.player p,	maktab_league_schema.player_match_info pmi"
+					+ " WHERE p.id = pmi.player_id" + " GROUP BY p.id" + " ORDER BY goals DESC" + " LIMIT 10;";
+			private static String FETCH_TOP_PLAYERS_ASSIST = "SELECT" + "	p.name," + "	p.position,"
+					+ "	p.team_name," + "	sum(pmi.number_of_assists) AS assists"
+					+ " FROM maktab_league_schema.player p,	maktab_league_schema.player_match_info pmi"
+					+ " WHERE p.id = pmi.player_id" + " GROUP BY p.id" + " ORDER BY assists DESC" + " LIMIT 10;";
+			private static String DELETE_ALL = "DELETE FROM maktab_league_schema.player_match_info;";
 		}
 
 		private static class TeamMatchInfo {
@@ -133,6 +152,14 @@ public class DbManager {
 					+ "	sum(number_of_scored_goals) AS scored_goals,"
 					+ "	sum(number_of_received_goals)AS received_goals," + "	sum(score) AS score" + " FROM"
 					+ "	maktab_league_schema.team_match_info" + " GROUP BY team_name" + " ORDER BY score DESC;";
+			private static String FETCH_ALL_DERBIES = "SELECT *,"
+					+ "	number_of_scored_goals + number_of_received_goals AS goals" + " FROM"
+					+ " maktab_league_schema.team_match_info tmi" + " WHERE tmi.match_id IN ( SELECT m.id"
+					+ "	FROM maktab_league_schema.match m" + "	WHERE m.away_team_name IN ("
+					+ "	SELECT t.name FROM maktab_league_schema.team t, maktab_league_schema.team t2"
+					+ " WHERE t.city_name = t2.city_name" + "	AND t.name != t2.name"
+					+ " AND m.home_team_name = t2.name))" + " ORDER BY goals DESC;";
+			private static String DELETE_ALL = "DELETE FROM maktab_league_schema.team_match_info;";
 		}
 	}
 
@@ -155,9 +182,21 @@ public class DbManager {
 			}
 
 			try {
+				statement.execute(Statements.City.DELETE_ALL);
+			} catch (SQLException e) {
+				throw new DbException("Error while deleting table contents (city)", e);
+			}
+
+			try {
 				statement.execute(Statements.Stadium.CREATE_TABLE);
 			} catch (SQLException e) {
 				throw new DbException("Error while creating table (stadium)", e);
+			}
+
+			try {
+				statement.execute(Statements.Stadium.DELETE_ALL);
+			} catch (SQLException e) {
+				throw new DbException("Error while deleting table contents (stadium)", e);
 			}
 
 			try {
@@ -167,15 +206,32 @@ public class DbManager {
 			}
 
 			try {
+				statement.execute(Statements.Coach.DELETE_ALL);
+			} catch (SQLException e) {
+				throw new DbException("Error while deleting table contents (coach)", e);
+			}
+
+			try {
 				statement.execute(Statements.Team.CREATE_TABLE);
 			} catch (SQLException e) {
 				throw new DbException("Error while creating table (team)", e);
 			}
 
 			try {
+				statement.execute(Statements.Team.DELETE_ALL);
+			} catch (SQLException e) {
+				throw new DbException("Error while deleting table contents (team)", e);
+			}
+
+			try {
 				statement.execute(Statements.Player.CREATE_TABLE);
 			} catch (SQLException e) {
 				throw new DbException("Error while creating table (player)", e);
+			}
+			try {
+				statement.execute(Statements.Player.DELETE_ALL);
+			} catch (SQLException e) {
+				throw new DbException("Error while deleting table contents (player)", e);
 			}
 
 			try {
@@ -185,9 +241,21 @@ public class DbManager {
 			}
 
 			try {
+				statement.execute(Statements.Match.DELETE_ALL);
+			} catch (SQLException e) {
+				throw new DbException("Error while deleting table contents (match)", e);
+			}
+
+			try {
 				statement.execute(Statements.Contract.CREATE_TABLE);
 			} catch (SQLException e) {
 				throw new DbException("Error while creating table (contract)", e);
+			}
+
+			try {
+				statement.execute(Statements.Contract.DELETE_ALL);
+			} catch (SQLException e) {
+				throw new DbException("Error while deleting table contents (contract)", e);
 			}
 
 			try {
@@ -197,9 +265,20 @@ public class DbManager {
 			}
 
 			try {
+				statement.execute(Statements.PlayerMatchInfo.DELETE_ALL);
+			} catch (SQLException e) {
+				throw new DbException("Error while deleting table contents (player_match_info)", e);
+			}
+
+			try {
 				statement.execute(Statements.TeamMatchInfo.CREATE_TABLE);
 			} catch (SQLException e) {
 				throw new DbException("Error while creating table (team_match_info)", e);
+			}
+			try {
+				statement.execute(Statements.TeamMatchInfo.DELETE_ALL);
+			} catch (SQLException e) {
+				throw new DbException("Error while deleting table contents (team_match_info)", e);
 			}
 
 		} catch (SQLException e) {
@@ -481,6 +560,7 @@ public class DbManager {
 
 	public List<String> fetchMostPaidPlayersList() throws DbException {
 		List<String> result = new ArrayList<>();
+		result.add("ID,Team,Name,Payment");
 		try (Connection connection = getConnection();
 				PreparedStatement statement = connection
 						.prepareStatement(Statements.Contract.FETCH_HIGEST_PAID_PLAYERS_LIST);) {
@@ -490,7 +570,7 @@ public class DbManager {
 				String playerName = resultSet.getString("player_name");
 				String teamName = resultSet.getString("team_name");
 				int payment = resultSet.getInt("payment");
-				result.add("id: " + playerId + " name: " + playerName + " team: " + teamName + " payment: " + payment);
+				result.add(playerId + "," + teamName + "," + playerName + "," + payment);
 			}
 
 		} catch (SQLException e) {
@@ -501,17 +581,106 @@ public class DbManager {
 
 	public List<String> fetchCitiesTeamNumberList() throws DbException {
 		List<String> result = new ArrayList<>();
+		result.add("City,Teams#");
 		try (Connection connection = getConnection();
 				PreparedStatement statement = connection.prepareStatement(Statements.City.FETCH_CITY_TEAM_NUMBERS);) {
 			ResultSet resultSet = statement.executeQuery();
 			while (resultSet.next()) {
 				String cityName = resultSet.getString("name");
 				int number = resultSet.getInt("number");
-				result.add("name: " + cityName + " teams: " + number);
+				result.add(cityName + "," + number);
 			}
 
 		} catch (SQLException e) {
 			throw new DbException("Error while fetching cities list", e);
+		}
+		return result;
+	}
+
+	public List<String> fetchAllDerbiesList() throws DbException {
+		List<String> result = new ArrayList<>();
+		result.add("Match ID,Home Team,Away Team,Goals");
+		try (Connection connection = getConnection();
+				PreparedStatement statement = connection
+						.prepareStatement(Statements.TeamMatchInfo.FETCH_ALL_DERBIES);) {
+			ResultSet resultSet = statement.executeQuery();
+			String homeTeamName = null;
+			while (resultSet.next())
+				if (homeTeamName == null)
+					homeTeamName = resultSet.getString("team_name");
+				else {
+					String awayTeamName = resultSet.getString("team_name");
+					int goals = resultSet.getInt("goals");
+					int matchId = resultSet.getInt("match_id");
+					result.add(matchId + "," + homeTeamName + "," + awayTeamName + "," + goals);
+					homeTeamName = null;
+				}
+
+		} catch (SQLException e) {
+			throw new DbException("Error while fetching all derbies list", e);
+		}
+		return result;
+	}
+
+	public List<String> fetchTopSkilledPlayersList() throws DbException {
+		List<String> result = new ArrayList<>();
+		result.add("Team,Player,Position,Skill Level");
+		try (Connection connection = getConnection();
+				PreparedStatement statement = connection
+						.prepareStatement(Statements.Player.FETCH_TOP_SKILLED_PLAYERS);) {
+			ResultSet resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				String playerName = resultSet.getString("name");
+				PlayerPosition position = PlayerPosition.valueOf(resultSet.getString("position"));
+				int skillLevel = resultSet.getInt("skill_level");
+				String teamName = resultSet.getString("team_name");
+				result.add(teamName + "," + playerName + "," + position.toString() + "," + skillLevel);
+			}
+
+		} catch (SQLException e) {
+			throw new DbException("Error while fetching top skilled players list", e);
+		}
+		return result;
+	}
+
+	public List<String> fetchTopPlayersGoalsList() throws DbException {
+		List<String> result = new ArrayList<>();
+		result.add("Team,Player,Position,Goals");
+		try (Connection connection = getConnection();
+				PreparedStatement statement = connection
+						.prepareStatement(Statements.PlayerMatchInfo.FETCH_TOP_PLAYERS_GOAL);) {
+			ResultSet resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				String playerName = resultSet.getString("name");
+				PlayerPosition position = PlayerPosition.valueOf(resultSet.getString("position"));
+				String teamName = resultSet.getString("team_name");
+				int goals = resultSet.getInt("goals");
+				result.add(teamName + "," + playerName + "," + position.toString() + "," + goals);
+			}
+
+		} catch (SQLException e) {
+			throw new DbException("Error while fetching top players goal list", e);
+		}
+		return result;
+	}
+
+	public List<String> fetchTopPlayersAssistsList() throws DbException {
+		List<String> result = new ArrayList<>();
+		result.add("Team,Player,Position,Assists");
+		try (Connection connection = getConnection();
+				PreparedStatement statement = connection
+						.prepareStatement(Statements.PlayerMatchInfo.FETCH_TOP_PLAYERS_ASSIST);) {
+			ResultSet resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				String playerName = resultSet.getString("name");
+				PlayerPosition position = PlayerPosition.valueOf(resultSet.getString("position"));
+				String teamName = resultSet.getString("team_name");
+				int assists = resultSet.getInt("assists");
+				result.add(teamName + "," + playerName + "," + position.toString() + "," + assists);
+			}
+
+		} catch (SQLException e) {
+			throw new DbException("Error while fetching top players assist list", e);
 		}
 		return result;
 	}

@@ -128,4 +128,36 @@ public class LeagueManager {
 			throw new ServiceExeption("error while getting cities teams number list", e);
 		}
 	}
+
+	public List<String> getAllDerbiesList() throws ServiceExeption {
+		try {
+			return dbManager.fetchAllDerbiesList();
+		} catch (DbException e) {
+			throw new ServiceExeption("error while getting derbies list", e);
+		}
+	}
+
+	public List<String> getTopSkilledPlayersList() throws ServiceExeption {
+		try {
+			return dbManager.fetchTopSkilledPlayersList();
+		} catch (DbException e) {
+			throw new ServiceExeption("error while getting top skilled players list", e);
+		}
+	}
+	public List<String> getTopPlayersGoalList() throws ServiceExeption {
+		try {
+			return dbManager.fetchTopPlayersGoalsList();
+		} catch (DbException e) {
+			throw new ServiceExeption("error while getting top players goal list", e);
+		}
+	}
+	public List<String> getTopPlayersAssistList() throws ServiceExeption {
+		try {
+			return dbManager.fetchTopPlayersAssistsList();
+		} catch (DbException e) {
+			throw new ServiceExeption("error while getting top players assist list", e);
+		}
+	}
+
+
 }
