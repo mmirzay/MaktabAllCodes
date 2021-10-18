@@ -1,7 +1,7 @@
 package com.project.my.homeworks.hw11.q3;
 
 public class CheckingAccount {
-	private int balance;
+	private volatile int balance;
 
 	public CheckingAccount(int initialBalance) {
 		balance = initialBalance;
