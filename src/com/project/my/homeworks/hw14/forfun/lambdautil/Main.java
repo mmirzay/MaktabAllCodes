@@ -1,4 +1,4 @@
-package com.project.my.homeworks.hw14.forfun;
+package com.project.my.homeworks.hw14.forfun.lambdautil;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
