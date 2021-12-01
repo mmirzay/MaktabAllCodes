@@ -6,6 +6,14 @@ import static org.junit.Assert.assertThrows;
 import org.junit.Test;
 
 public class IntStringConvertorTest {
+
+	@Test
+	public void convert_null_string_test() {
+		String invalidTest1 = null;
+		assertThrows("It is invalid null value, how could you convert it?!", IllegalArgumentException.class,
+				() -> IntStringConvertor.convert(invalidTest1));
+	}
+
 	@Test
 	public void convert_non_parsable_string_test() {
 		String invalidTest1 = "58 9";

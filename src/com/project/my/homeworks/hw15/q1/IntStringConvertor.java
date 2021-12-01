@@ -7,7 +7,7 @@ public class IntStringConvertor {
 			if (result < -32_767 || result > 32_767)
 				throw new IllegalArgumentException("Invalid range to convert.");
 			return result;
-		} catch (NumberFormatException e) {
+		} catch (NullPointerException | NumberFormatException e) {
 			throw new IllegalArgumentException("Invalid string to convert");
 		}
 	}
